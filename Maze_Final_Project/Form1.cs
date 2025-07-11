@@ -24,11 +24,15 @@ namespace myOpenGL
         private HScrollBar hScrollBar12; // מיקום האור Y
         private HScrollBar hScrollBar13; // מיקום האור Z
 
+
+
+
+        //מאתחל את הטופס, הכפתורים, הפאנל, הפונקציות והטיימר.
         public Form1()
         {
             InitializeComponent();
 
-            this.Text = "Parking Lot Project";
+            this.Text = "Parking Project";
             this.ClientSize = new Size(950, 800);
             this.StartPosition = FormStartPosition.CenterScreen;
 
@@ -47,24 +51,14 @@ namespace myOpenGL
             GroupBox controls = new GroupBox();
             controls.Text = "Controls";
             controls.Location = new Point(770, 20);
-            controls.Size = new Size(150, 500);
+            controls.Size = new Size(150, 700);
             this.Controls.Add(controls);
 
-            // כפתורי תנועה
-            Button upBtn = new Button() { Text = "↑", Location = new Point(50, 20), Size = new Size(40, 30) };
-            Button downBtn = new Button() { Text = "↓", Location = new Point(50, 100), Size = new Size(40, 30) };
-            Button leftBtn = new Button() { Text = "←", Location = new Point(10, 60), Size = new Size(40, 30) };
-            Button rightBtn = new Button() { Text = "→", Location = new Point(90, 60), Size = new Size(40, 30) };
-
-            upBtn.Click += (s, e) => { cGL.redCarY += 1; panel1.Invalidate(); };
-            downBtn.Click += (s, e) => { cGL.redCarY -= 1; panel1.Invalidate(); };
-            leftBtn.Click += (s, e) => { cGL.redCarX -= 1; panel1.Invalidate(); };
-            rightBtn.Click += (s, e) => { cGL.redCarX += 1; panel1.Invalidate(); };
 
             // כפתור שער
             Button gateBtn = new Button()
             {
-                Text = "פתח/סגור שער",
+                Text = "close/open gate",
                 Location = new Point(10, 140),
                 Size = new Size(120, 30),
                 Font = new Font("Arial", 9, FontStyle.Bold)
@@ -72,7 +66,6 @@ namespace myOpenGL
             gateBtn.Click += (s, e) =>
             {
                 cGL.ToggleGate();
-                panel1.Invalidate();
             };
 
             // כפתורי תאורה
@@ -98,20 +91,18 @@ namespace myOpenGL
             {
                 cGL.light1On = !cGL.light1On;
                 UpdateLightButton1();
-                panel1.Invalidate();
             };
 
             lightButton2.Click += (s, e) =>
             {
                 cGL.light2On = !cGL.light2On;
                 UpdateLightButton2();
-                panel1.Invalidate();
             };
 
             // כפתורי רכב
             Button carLightsBtn = new Button()
             {
-                Text = "אורות רכב",
+                Text = "light car",
                 Location = new Point(10, 260),
                 Size = new Size(120, 30)
             };
@@ -119,12 +110,11 @@ namespace myOpenGL
             {
                 cGL.carLightsOn = !cGL.carLightsOn;
                 cGL.carBlinking = false;
-                panel1.Invalidate();
             };
 
             Button carBlinkBtn = new Button()
             {
-                Text = "הבהוב",
+                Text = "blink car",
                 Location = new Point(10, 300),
                 Size = new Size(120, 30)
             };
@@ -133,13 +123,12 @@ namespace myOpenGL
                 cGL.carBlinking = !cGL.carBlinking;
                 if (cGL.carBlinking)
                     cGL.carLightsOn = true;
-                panel1.Invalidate();
             };
 
             // כפתורי רמזור
             btnRedLight = new Button()
             {
-                Text = "אדום",
+                Text = "red",
                 Location = new Point(10, 340),
                 Size = new Size(60, 25),
                 Font = new Font("Arial", 8, FontStyle.Bold)
@@ -147,7 +136,7 @@ namespace myOpenGL
 
             btnYellowLight = new Button()
             {
-                Text = "צהוב",
+                Text = "yellow",
                 Location = new Point(75, 340),
                 Size = new Size(60, 25),
                 Font = new Font("Arial", 8, FontStyle.Bold)
@@ -155,7 +144,7 @@ namespace myOpenGL
 
             btnGreenLight = new Button()
             {
-                Text = "ירוק",
+                Text = "green",
                 Location = new Point(10, 370),
                 Size = new Size(60, 25),
                 Font = new Font("Arial", 8, FontStyle.Bold)
@@ -163,7 +152,7 @@ namespace myOpenGL
 
             btnAutoLight = new Button()
             {
-                Text = "אוטו",
+                Text = "car",
                 Location = new Point(75, 370),
                 Size = new Size(60, 25),
                 Font = new Font("Arial", 8, FontStyle.Bold),
@@ -172,7 +161,7 @@ namespace myOpenGL
 
             lblTrafficStatus = new Label()
             {
-                Text = "רמזור: אוטומטי",
+                Text = "auto",
                 Location = new Point(10, 400),
                 Size = new Size(120, 15),
                 Font = new Font("Arial", 8, FontStyle.Regular),
@@ -182,38 +171,34 @@ namespace myOpenGL
             btnRedLight.Click += (s, e) =>
             {
                 cGL.SetTrafficLightState(0);
-                lblTrafficStatus.Text = "רמזור: אדום";
+                lblTrafficStatus.Text = "red traffic light";
                 UpdateTrafficButtons(0);
-                panel1.Invalidate();
             };
 
             btnYellowLight.Click += (s, e) =>
             {
                 cGL.SetTrafficLightState(1);
-                lblTrafficStatus.Text = "רמזור: צהוב";
+                lblTrafficStatus.Text = "yellow traffic light";
                 UpdateTrafficButtons(1);
-                panel1.Invalidate();
             };
 
             btnGreenLight.Click += (s, e) =>
             {
                 cGL.SetTrafficLightState(2);
-                lblTrafficStatus.Text = "רמזור: ירוק";
+                lblTrafficStatus.Text = "green traffic light";
                 UpdateTrafficButtons(2);
-                panel1.Invalidate();
             };
 
             btnAutoLight.Click += (s, e) =>
             {
                 cGL.EnableAutoTrafficLight();
-                lblTrafficStatus.Text = "רמזור: אוטומטי";
+                lblTrafficStatus.Text = "auto traffic light";
                 UpdateTrafficButtons(-1);
-                panel1.Invalidate();
             };
 
             colorBtn = new Button()
             {
-                Text = "צבעים רנדומליים",
+                Text = "random colors",
                 Location = new Point(10, 430),
                 Size = new Size(120, 25),
                 Font = new Font("Arial", 8, FontStyle.Bold)
@@ -223,80 +208,73 @@ namespace myOpenGL
             {
                 cGL.isColored = !cGL.isColored;
                 colorBtn.BackColor = cGL.isColored ? Color.LightGreen : SystemColors.Control;
-                panel1.Invalidate();
             };
 
-            // הוספת כל הכפתורים לקבוצה
-            controls.Controls.AddRange(new Control[] {
-                upBtn, downBtn, leftBtn, rightBtn,
-                gateBtn, lightButton1, lightButton2,
-                carLightsBtn, carBlinkBtn,
-                btnRedLight, btnYellowLight, btnGreenLight, btnAutoLight, lblTrafficStatus,
-                colorBtn
-            });
-
-            //   לשליטה בצל
-            hScrollBar11 = new HScrollBar()
+            // Labels לשליטה בצל
+            Label lblLightZ = new Label()
             {
-                Location = new Point(770, 540),
-                Size = new Size(150, 20),
-                Minimum = 0,
-                Maximum = 200,
-                Value = 150 
+                Text = "גובה האור Z",
+                Location = new Point(10, 460),
+                Size = new Size(120, 15),
+                Font = new Font("Arial", 8)
             };
 
-            hScrollBar12 = new HScrollBar()
-            {
-                Location = new Point(770, 580),
-                Size = new Size(150, 20),
-                Minimum = 0,
-                Maximum = 200,
-                Value = 50   
-            };
-
-            hScrollBar13 = new HScrollBar()
-            {
-                Location = new Point(770, 620),
-                Size = new Size(150, 20),
-                Minimum = 100,
-                Maximum = 300,
-                Value = 200  
-            };
-            
-
-            //  הסבר
             Label lblLightX = new Label()
             {
                 Text = "מיקום האור X",
-                Location = new Point(770, 520),
-                Size = new Size(150, 15),
+                Location = new Point(10, 500),
+                Size = new Size(120, 15),
                 Font = new Font("Arial", 8)
             };
 
             Label lblLightY = new Label()
             {
                 Text = "מיקום האור Y",
-                Location = new Point(770, 560),
-                Size = new Size(150, 15),
+                Location = new Point(10, 540),
+                Size = new Size(120, 15),
                 Font = new Font("Arial", 8)
             };
 
-            Label lblLightZ = new Label()
+            // HScrollBars לשליטה בצל
+            hScrollBar13 = new HScrollBar()
             {
-                Text = "גובה האור Z",
-                Location = new Point(770, 600),
-                Size = new Size(150, 15),
-                Font = new Font("Arial", 8)
+                Location = new Point(10, 480),
+                Size = new Size(120, 15),
+                Minimum = 100,
+                Maximum = 300,
+                Value = 200
             };
 
-           
+            hScrollBar11 = new HScrollBar()
+            {
+                Location = new Point(10, 520),
+                Size = new Size(120, 15),
+                Minimum = 0,
+                Maximum = 200,
+                Value = 150
+            };
+
+            hScrollBar12 = new HScrollBar()
+            {
+                Location = new Point(10, 560),
+                Size = new Size(120, 15),
+                Minimum = 0,
+                Maximum = 200,
+                Value = 50
+            };
+
+            // חיבור אירועי הגלילה
             hScrollBar11.Scroll += hScrollBar11_Scroll;
             hScrollBar12.Scroll += hScrollBar12_Scroll;
             hScrollBar13.Scroll += hScrollBar13_Scroll;
 
-            this.Controls.AddRange(new Control[] {
-                hScrollBar11, hScrollBar12, hScrollBar13, 
-                lblLightX, lblLightY, lblLightZ, 
+            // הוספת כל הפקדים לקבוצה
+            controls.Controls.AddRange(new Control[] {
+                gateBtn, lightButton1, lightButton2,
+                carLightsBtn, carBlinkBtn,
+                btnRedLight, btnYellowLight, btnGreenLight, btnAutoLight, lblTrafficStatus,
+                colorBtn,
+                lblLightZ, hScrollBar13, lblLightX, hScrollBar11, lblLightY, hScrollBar12
             });
 
             cGL = new cOGL(panel1);
@@ -305,14 +283,13 @@ namespace myOpenGL
             hScrollBar12_Scroll(hScrollBar12, null);
             hScrollBar13_Scroll(hScrollBar13, null);
 
-
             timer1 = new Timer();
             timer1.Interval = 50;
             timer1.Tick += timer1_Tick;
             timer1.Start();
         }
 
-        // פונקציות עזר לעדכון כפתורי התאורה
+        //מעדכן את טקסט וצבע כפתור תאורה 1 לפי מצב הדלקה
         private void UpdateLightButton1()
         {
             if (cGL.light1On)
@@ -326,7 +303,7 @@ namespace myOpenGL
                 lightButton1.BackColor = Color.LightCoral;
             }
         }
-
+        //מעדכן את טקסט וצבע כפתור תאורה 2 לפי מצב הדלקה
         private void UpdateLightButton2()
         {
             if (cGL.light2On)
@@ -341,6 +318,8 @@ namespace myOpenGL
             }
         }
 
+
+        //מעדכן את צבעי כפתורי הרמזור לפי מצב נבחר אדום/צהוב/ירוק/אוטומטי
         private void UpdateTrafficButtons(int activeState)
         {
             btnRedLight.BackColor = SystemColors.Control;
@@ -357,21 +336,30 @@ namespace myOpenGL
             }
         }
 
+
+        //קורא לפונקציית Draw() של cGL לצייר את הסצנה בזמן Paint
         private void panel1_Paint(object sender, PaintEventArgs e) => cGL.Draw();
+
+
+       // קורא ל-OnResize() של cGL להתאים תצוגה כשגודל הפאנל משתנה
         private void panel1_Resize(object sender, EventArgs e) => cGL.OnResize();
 
+
+        //רענון הרמזור
         private void timer1_Tick(object sender, EventArgs e)
         {
             if (cGL.autoTrafficLight)
             {
-                string[] states = { "אדום", "צהוב", "ירוק" };
-                lblTrafficStatus.Text = "רמזור: אוטומטי - " + states[cGL.trafficLightState];
+                string[] states = { "red", "yellow", "green" };
+                lblTrafficStatus.Text = "auto traffic light " + states[cGL.trafficLightState];
                 UpdateTrafficButtons(-1);
             }
 
             cGL.Draw();
         }
 
+
+        //שומר נקודת לחיצה של העכבר לתחילת גרירה או תזוזה
         private void panel1_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
@@ -381,9 +369,7 @@ namespace myOpenGL
                 cGL.lastMouseY = e.Y;
             }
         }
-
-        
-
+        //מבצע סיבוב מצלמה או הזזה (Pan) לפי תזוזת עכבר
         private void panel1_MouseMove(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
@@ -416,10 +402,9 @@ namespace myOpenGL
 
                 cGL.lastMouseX = e.X;
                 cGL.lastMouseY = e.Y;
-                panel1.Invalidate();
             }
         }
-
+        //משנה את הזום (מרחק המצלמה) בגלגלת העכבר
         private void panel1_MouseWheel(object sender, MouseEventArgs e)
         {
             if (e.Delta > 0)
@@ -432,31 +417,31 @@ namespace myOpenGL
             }
 
             cGL.zoomDistance = Math.Max(6.0f, Math.Min(25.0f, cGL.zoomDistance));
-            panel1.Invalidate();
         }
 
-        //    לשליטה בצל
+
+
+        //סרגלי גלילה לשליטת אור וצל
+
+        //משנה את מיקום האור בציר X
         private void hScrollBar11_Scroll(object sender, ScrollEventArgs e)
         {
             HScrollBar hb = (HScrollBar)sender;
             cGL.pos[0] = (hb.Value - 100) / 10.0f; // מיקום X של האור
-            cGL.Draw();
         }
-
+        //משנה את מיקום האור בציר Y
         private void hScrollBar12_Scroll(object sender, ScrollEventArgs e)
         {
             HScrollBar hb = (HScrollBar)sender;
             cGL.pos[1] = (hb.Value - 100) / 10.0f; // מיקום Y של האור
-            cGL.Draw();
         }
-
+        //משנה את גובה האור בציר Z
         private void hScrollBar13_Scroll(object sender, ScrollEventArgs e)
         {
             HScrollBar hb = (HScrollBar)sender;
             cGL.pos[2] = (hb.Value - 100) / 10.0f; // גובה Z של האור
-            cGL.Draw();
         }
-
+        //משנה את גובה הקרקע לצל
         private void hScrollBar14_Scroll(object sender, ScrollEventArgs e)
         {
             HScrollBar hb = (HScrollBar)sender;
@@ -467,7 +452,7 @@ namespace myOpenGL
             cGL.ground[1, 2] = groundHeight;
             cGL.ground[2, 2] = groundHeight;
 
-            cGL.Draw();
+            //cGL.Draw();
         }
     }
 }

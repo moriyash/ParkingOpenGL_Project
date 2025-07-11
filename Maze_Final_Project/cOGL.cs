@@ -20,21 +20,21 @@ namespace OpenGL
 
         public bool light1On = true;  // תאורה ראשית
         public bool light2On = true;  // תאורה משנית
-        //מערך טקסטורות
-        public uint[] Textures = new uint[20];
-        public uint[] SkyboxTextures = new uint[6]; // ייעודי ל־skybox
+        public uint[] Textures = new uint[20];//מערך טקסטורות
+
+        public uint[] SkyboxTextures = new uint[6]; 
 
         public bool carLightsOn = false;
         public bool carBlinking = false;
         private float blinkTimer = 0.0f;
 
-        public float zoomDistance = 9.0f; // מרחק זום במקום zShift
+        public float zoomDistance = 9.0f; 
         public float yShift = 0.0f;
         public float xShift = -23.0f;
 
         public float zAngle = 10.0f;
         public float yAngle = 10.0f;
-        public float xAngle = -15.0f; // זווית התחלתית טובה יותר
+        public float xAngle = -15.0f; 
 
         public bool isDragging = false;
         public int lastMouseX, lastMouseY;
@@ -55,13 +55,12 @@ namespace OpenGL
 
         public int redCarX = 0, redCarY = 0; // משתנים עבור הרכב האדום
 
-        // שליטה בעוצמת אורות שונים בחניון
-        public float light1Intensity = 3.0f;
+        public float light1Intensity = 3.0f;// שליטה בעוצמת אורות שונים בחניון
         public float light2Intensity = 3.0f;
 
-        public bool gateOpen = false;        // מצב השער פתוח או סגור
-        public float gateAnimation = 0.0f;   // אנימציה של השער סגור פתוח
-        public bool gateMoving = false;   // האם השער בתנועה
+        public bool gateOpen = false; // מצב השער פתוח או סגור
+        public float gateAnimation = 0.0f;// אנימציה של השער סגור פתוח
+        public bool gateMoving = false;// האם השער בתנועה
 
         public bool doorOpen = false;
         public float[,] ground = new float[3, 3]
@@ -95,6 +94,7 @@ namespace OpenGL
 
 
         }
+        //ציור סצנת החניון במלואה
         void DrawParkingLot()
         {
             GL.glPushMatrix(); 
@@ -426,200 +426,6 @@ namespace OpenGL
 
             GL.glPopMatrix(); // החזרת המטריצה הראשית של החניון
         }
-
-        void DrawFloor()
-        {
-            GL.glEnable(GL.GL_LIGHTING);
-            GL.glBegin(GL.GL_QUADS);
-            // רצפה כחולה שקופה קטנה - לצד החניון
-            GL.glColor4d(0, 0, 1, 0.5);
-            GL.glVertex3d(10, -3, 0);    // שמאל תחתון
-            GL.glVertex3d(10, 3, 0);     // שמאל עליון  
-            GL.glVertex3d(16, 3, 0);     // ימין עליון
-            GL.glVertex3d(16, -3, 0);    // ימין תחתון
-            GL.glEnd();
-        }
-
-        void DrawFigures()
-        {
-            GL.glPushMatrix();
-
-            // הזזה לצד החניון
-            GL.glTranslatef(13.0f, 0.0f, 0.0f); // הזזה ימינה לצד החניון
-
-            // מקור האור חייב להיות בסצנה כדי שישתקף גם
-            GL.glLightfv(GL.GL_LIGHT0, GL.GL_POSITION, pos);
-
-            // ציור מקור האור
-            GL.glDisable(GL.GL_LIGHTING);
-            GL.glTranslatef(pos[0] / 5, pos[1] / 5, pos[2] / 5); // הקטנה של מיקום האור
-                                                                 // מקור אור צהוב קטן
-            GL.glColor3f(1, 1, 0);
-            GLUT.glutSolidSphere(0.02, 8, 8); // כדור קטן יותר
-            GL.glTranslatef(-pos[0] / 5, -pos[1] / 5, -pos[2] / 5);
-
-            // קו הקרנה ממקור האור למישור
-            GL.glBegin(GL.GL_LINES);
-            GL.glColor3d(0.5, 0.5, 0);
-            GL.glVertex3d(pos[0] / 5, pos[1] / 5, 0);
-            GL.glVertex3d(pos[0] / 5, pos[1] / 5, pos[2] / 5);
-            GL.glEnd();
-
-            // הפעלת תאורה לאובייקטים
-            GL.glEnable(GL.GL_LIGHTING);
-
-            GL.glRotated(intOptionB, 0, 0, 1); // סיבוב שניהם
-
-            // הקטנת האובייקטים
-            GL.glScalef(0.3f, 0.3f, 0.3f); // הקטנה של כל האובייקטים
-
-            // קוביה אדומה מסתובבת
-            GL.glColor3f(1, 0, 0);
-            GL.glTranslated(0, -1.5, 1);
-            GL.glRotated(intOptionC, 1, 1, 1);
-            GLUT.glutSolidCube(1);
-            GL.glRotated(-intOptionC, 1, 1, 1);
-            GL.glTranslated(0, 1.5, -1);
-
-            // טיפות תה ציאן מסתובבת
-            GL.glTranslated(2, 1.5, 1.5);
-            GL.glRotated(90, 1, 0, 0);
-            GL.glColor3d(0, 1, 1);
-            GL.glRotated(intOptionB, 1, 0, 0);
-            GLUT.glutSolidTeapot(1);
-            GL.glRotated(-intOptionB, 1, 0, 0);
-            GL.glRotated(-90, 1, 0, 0);
-            GL.glTranslated(-2, -1.5, -1.5);
-
-            GL.glPopMatrix();
-        }
-
-        void LoadSkyboxTextures()
-        {
-            string[] skyboxNames = {
-        "skybox_back.jpg", "skybox_bottom.jpg","skybox_front.jpg"
-         , "skybox_left.jpg","skybox_right.jpg",
-        "skybox_top.jpg",
-    };
-
-            GL.glGenTextures(6, SkyboxTextures);
-
-            for (int i = 0; i < 6; i++)
-            {
-                Bitmap image = new Bitmap(@"Textures/Skybox/" + skyboxNames[i]);
-                image.RotateFlip(RotateFlipType.RotateNoneFlipY);
-
-                Rectangle rect = new Rectangle(0, 0, image.Width, image.Height);
-                BitmapData bitmapdata = image.LockBits(rect, ImageLockMode.ReadOnly, PixelFormat.Format24bppRgb);
-
-                GL.glBindTexture(GL.GL_TEXTURE_2D, SkyboxTextures[i]);
-                GL.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_WRAP_S, (int)GL.GL_CLAMP);
-                GL.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_WRAP_T, (int)GL.GL_CLAMP);
-                GL.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MIN_FILTER, (int)GL.GL_LINEAR);
-                GL.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MAG_FILTER, (int)GL.GL_LINEAR);
-
-                GL.glTexImage2D(GL.GL_TEXTURE_2D, 0, (int)GL.GL_RGB8, image.Width, image.Height,
-                                0, GL.GL_BGR_EXT, GL.GL_UNSIGNED_byte, bitmapdata.Scan0);
-
-                image.UnlockBits(bitmapdata);
-                image.Dispose();
-            }
-        }
-
-        void DrawSkybox(float size, float uOffset, float vOffset)
-        {
-            GL.glDisable(GL.GL_LIGHTING);
-            GL.glEnable(GL.GL_TEXTURE_2D);
-            GL.glBindTexture(GL.GL_TEXTURE_2D, SkyboxTextures[0]); // טקסטורת שמיים
-
-            GL.glColor3f(1, 1, 1);
-            float half = size / 2f;
-
-            // רצפה (bottom)
-            GL.glBegin(GL.GL_QUADS);
-            GL.glTexCoord2f(0 + uOffset, 0 + vOffset); GL.glVertex3f(-half, -half, -half);
-            GL.glTexCoord2f(1 + uOffset, 0 + vOffset); GL.glVertex3f(half, -half, -half);
-            GL.glTexCoord2f(1 + uOffset, 1 + vOffset); GL.glVertex3f(half, half, -half);
-            GL.glTexCoord2f(0 + uOffset, 1 + vOffset); GL.glVertex3f(-half, half, -half);
-            GL.glEnd();
-
-            // תקרה (top)
-            GL.glBegin(GL.GL_QUADS);
-            GL.glTexCoord2f(0 + uOffset, 0 + vOffset); GL.glVertex3f(-half, -half, half);
-            GL.glTexCoord2f(1 + uOffset, 0 + vOffset); GL.glVertex3f(half, -half, half);
-            GL.glTexCoord2f(1 + uOffset, 1 + vOffset); GL.glVertex3f(half, half, half);
-            GL.glTexCoord2f(0 + uOffset, 1 + vOffset); GL.glVertex3f(-half, half, half);
-            GL.glEnd();
-
-            // קיר אחורי (back)
-            GL.glBegin(GL.GL_QUADS);
-            GL.glTexCoord2f(0 + uOffset, 0 + vOffset); GL.glVertex3f(-half, -half, -half);
-            GL.glTexCoord2f(1 + uOffset, 0 + vOffset); GL.glVertex3f(-half, -half, half);
-            GL.glTexCoord2f(1 + uOffset, 1 + vOffset); GL.glVertex3f(half, -half, half);
-            GL.glTexCoord2f(0 + uOffset, 1 + vOffset); GL.glVertex3f(half, -half, -half);
-            GL.glEnd();
-
-            // קיר קדמי (front)
-            GL.glBegin(GL.GL_QUADS);
-            GL.glTexCoord2f(0 + uOffset, 0 + vOffset); GL.glVertex3f(-half, half, -half);
-            GL.glTexCoord2f(1 + uOffset, 0 + vOffset); GL.glVertex3f(-half, half, half);
-            GL.glTexCoord2f(1 + uOffset, 1 + vOffset); GL.glVertex3f(half, half, half);
-            GL.glTexCoord2f(0 + uOffset, 1 + vOffset); GL.glVertex3f(half, half, -half);
-            GL.glEnd();
-
-            // קיר שמאלי (left)
-            GL.glBegin(GL.GL_QUADS);
-            GL.glTexCoord2f(0 + uOffset, 0 + vOffset); GL.glVertex3f(-half, -half, -half);
-            GL.glTexCoord2f(1 + uOffset, 0 + vOffset); GL.glVertex3f(-half, half, -half);
-            GL.glTexCoord2f(1 + uOffset, 1 + vOffset); GL.glVertex3f(-half, half, half);
-            GL.glTexCoord2f(0 + uOffset, 1 + vOffset); GL.glVertex3f(-half, -half, half);
-            GL.glEnd();
-
-            // קיר ימני (right)
-            GL.glBegin(GL.GL_QUADS);
-            GL.glTexCoord2f(0 + uOffset, 0 + vOffset); GL.glVertex3f(half, -half, -half);
-            GL.glTexCoord2f(1 + uOffset, 0 + vOffset); GL.glVertex3f(half, half, -half);
-            GL.glTexCoord2f(1 + uOffset, 1 + vOffset); GL.glVertex3f(half, half, half);
-            GL.glTexCoord2f(0 + uOffset, 1 + vOffset); GL.glVertex3f(half, -half, half);
-            GL.glEnd();
-
-            GL.glDisable(GL.GL_TEXTURE_2D);
-            GL.glEnable(GL.GL_LIGHTING);
-        }
-
-        void GenerateTextures()
-        {
-            GL.glGenTextures(8, Textures);
-            string[] imagesName = { "floor.jpg", "parking_floor.jpg", "road.jpg", "Road_Center.jpg", "Security.jpg", "Waiting_Corner.jpg", "Wall_Parking.jpg", "Road_out2.jpg" };
-
-            string basePath = Application.StartupPath + @"\Textures\";
-
-            for (int i = 0; i < 8; i++) 
-            {
-                string fullPath = Path.Combine(basePath, imagesName[i]);
-
-                if (!File.Exists(fullPath))
-                {
-                    MessageBox.Show("קובץ לא נמצא: " + fullPath);
-                    continue;
-                }
-
-                Bitmap image = new Bitmap(fullPath);
-                image.RotateFlip(RotateFlipType.RotateNoneFlipY);
-                Rectangle rect = new Rectangle(0, 0, image.Width, image.Height);
-                BitmapData bitmapdata = image.LockBits(rect, ImageLockMode.ReadOnly, PixelFormat.Format24bppRgb);
-
-                GL.glBindTexture(GL.GL_TEXTURE_2D, Textures[i]);
-                GL.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_WRAP_S, (int)GL.GL_REPEAT);
-                GL.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_WRAP_T, (int)GL.GL_REPEAT);
-                GL.glTexImage2D(GL.GL_TEXTURE_2D, 0, (int)GL.GL_RGB8, image.Width, image.Height, 0, GL.GL_BGR_EXT, GL.GL_UNSIGNED_byte, bitmapdata.Scan0);
-                GL.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MIN_FILTER, (int)GL.GL_LINEAR);
-                GL.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MAG_FILTER, (int)GL.GL_LINEAR);
-
-                image.UnlockBits(bitmapdata);
-                image.Dispose();
-            }
-        }
         public void Draw()
         {
             if (p == null) return;
@@ -693,96 +499,80 @@ namespace OpenGL
             GL.glFlush();
             WGL.wglSwapBuffers(WGL.GetDC((uint)p.Handle));
         }
-
-        void DrawCarWithShadow(float x, float y, float z, float angle = 0)
+        //אחראית על הסצנה
+        public void OnResize()
         {
-            GL.glPushMatrix();
-            GL.glTranslatef(x, y, z);
+            Width = p.Width;
+            Height = p.Height;
+            GL.glViewport(0, 0, Width, Height);
+            Draw();
+        }
+        //יצירת סביבה גרפית
+        protected virtual void InitializeGL()
+        {
+            uint hwnd = (uint)p.Handle;
+            uint dc = WGL.GetDC(hwnd);
+            WGL.wglSwapBuffers(dc);
 
-            // ציור הצל
-            GL.glDisable(GL.GL_LIGHTING);
-            GL.glEnable(GL.GL_POLYGON_OFFSET_FILL);
-            GL.glPolygonOffset(-2.0f, -4.0f); 
+            WGL.PIXELFORMATDESCRIPTOR pfd = new WGL.PIXELFORMATDESCRIPTOR();
+            WGL.ZeroPixelDescriptor(ref pfd);
+            pfd.nVersion = 1;
+            pfd.dwFlags = (WGL.PFD_DRAW_TO_WINDOW | WGL.PFD_SUPPORT_OPENGL | WGL.PFD_DOUBLEBUFFER);
+            pfd.iPixelType = (byte)(WGL.PFD_TYPE_RGBA);
+            pfd.cColorBits = 32;
+            pfd.cDepthBits = 32;
+            pfd.cStencilBits = 32;
+            pfd.iLayerType = (byte)(WGL.PFD_MAIN_PLANE);
 
-            GL.glPushMatrix();
-            MakeShadowMatrix(ground);
-            GL.glMultMatrixf(cubeXform);
-            GL.glRotatef(angle, 0, 0, 1);
-            GL.glColor3f(0.4f, 0.4f, 0.4f); 
-            DrawUpgradedWaitingCar(true);
-            GL.glPopMatrix();
+            int pixelFormatIndex = WGL.ChoosePixelFormat(dc, ref pfd);
+            WGL.SetPixelFormat(dc, pixelFormatIndex, ref pfd);
+            uint rc = WGL.wglCreateContext(dc);
+            WGL.wglMakeCurrent(dc, rc);
 
-            GL.glDisable(GL.GL_POLYGON_OFFSET_FILL);
+            // הפעלת בדיקת עומק
+            GL.glEnable(GL.GL_DEPTH_TEST);
+            GL.glDepthFunc(GL.GL_LEQUAL);
+
+            // הפעלת תאורה כללית
             GL.glEnable(GL.GL_LIGHTING);
+            GL.glEnable(GL.GL_LIGHT0);
 
-            // ציור הרכב
-            GL.glRotatef(angle, 0, 0, 1);
-            DrawUpgradedWaitingCar(false);
+            // הגדרת מקור האור מיקום אלכסוני עם עוצמה מעט גבוהה יותר
+            float[] light_position = { 12.0f, -12.0f, 10.0f, 1.0f };
+            float[] light_ambient = { 0.35f, 0.35f, 0.35f, 1.0f };
+            float[] light_diffuse = { 0.75f, 0.75f, 0.75f, 1.0f };
+            float[] light_specular = { 0.4f, 0.4f, 0.4f, 1.0f };
 
-            GL.glPopMatrix();
+            GL.glLightfv(GL.GL_LIGHT0, GL.GL_POSITION, light_position);
+            GL.glLightfv(GL.GL_LIGHT0, GL.GL_AMBIENT, light_ambient);
+            GL.glLightfv(GL.GL_LIGHT0, GL.GL_DIFFUSE, light_diffuse);
+            GL.glLightfv(GL.GL_LIGHT0, GL.GL_SPECULAR, light_specular);
+
+            // הפעלת חומר מבוסס צבע
+            GL.glEnable(GL.GL_COLOR_MATERIAL);
+            GL.glColorMaterial(GL.GL_FRONT, GL.GL_AMBIENT_AND_DIFFUSE);
+
+            // צבע רקע שחור שקוף
+            GL.glClearColor(0f, 0f, 0f, 0f);
+
+            // הגדרת פרספקטיבה ומטריצות
+            GL.glViewport(0, 0, Width, Height);
+            GL.glMatrixMode(GL.GL_PROJECTION);
+            GL.glLoadIdentity();
+            GLU.gluPerspective(45.0f, (float)Width / Height, 1.0f, 5000.0f);
+            GL.glMatrixMode(GL.GL_MODELVIEW);
+            GL.glLoadIdentity();
+
+            // טעינת הטקסטורות
+            GenerateTextures();
+            LoadSkyboxTextures();
+
+            GL.glEnable(GL.GL_STENCIL_TEST);
+            GL.glClearStencil(0);
         }
-        void MakeShadowMatrix(float[,] ground)
-        {
-            float[] planeCoeff = new float[4];
-            float dot;
 
-            float[] v1 = new float[3];
-            float[] v2 = new float[3];
 
-            v1[0] = ground[0, 0] - ground[1, 0];
-            v1[1] = ground[0, 1] - ground[1, 1];
-            v1[2] = ground[0, 2] - ground[1, 2];
-
-            v2[0] = ground[1, 0] - ground[2, 0];
-            v2[1] = ground[1, 1] - ground[2, 1];
-            v2[2] = ground[1, 2] - ground[2, 2];
-
-            planeCoeff[0] = v1[1] * v2[2] - v1[2] * v2[1];
-            planeCoeff[1] = v1[2] * v2[0] - v1[0] * v2[2];
-            planeCoeff[2] = v1[0] * v2[1] - v1[1] * v2[0];
-
-            float length = (float)Math.Sqrt(planeCoeff[0] * planeCoeff[0] +
-                                           planeCoeff[1] * planeCoeff[1] +
-                                           planeCoeff[2] * planeCoeff[2]);
-            if (length != 0)
-            {
-                planeCoeff[0] /= length;
-                planeCoeff[1] /= length;
-                planeCoeff[2] /= length;
-            }
-
-            planeCoeff[3] = -(planeCoeff[0] * ground[2, 0] +
-                              planeCoeff[1] * ground[2, 1] +
-                              planeCoeff[2] * ground[2, 2]);
-
-            float[] lightPos = { pos[0], pos[1], pos[2], pos[3] }; // ← השינוי היחיד!
-
-            // מכפלה סקלרית
-            dot = planeCoeff[0] * lightPos[0] +
-                  planeCoeff[1] * lightPos[1] +
-                  planeCoeff[2] * lightPos[2] +
-                  planeCoeff[3] * lightPos[3];
-
-            cubeXform[0] = dot - lightPos[0] * planeCoeff[0];
-            cubeXform[4] = 0.0f - lightPos[0] * planeCoeff[1];
-            cubeXform[8] = 0.0f - lightPos[0] * planeCoeff[2];
-            cubeXform[12] = 0.0f - lightPos[0] * planeCoeff[3];
-
-            cubeXform[1] = 0.0f - lightPos[1] * planeCoeff[0];
-            cubeXform[5] = dot - lightPos[1] * planeCoeff[1];
-            cubeXform[9] = 0.0f - lightPos[1] * planeCoeff[2];
-            cubeXform[13] = 0.0f - lightPos[1] * planeCoeff[3];
-
-            cubeXform[2] = 0.0f - lightPos[2] * planeCoeff[0];
-            cubeXform[6] = 0.0f - lightPos[2] * planeCoeff[1];
-            cubeXform[10] = dot - lightPos[2] * planeCoeff[2];
-            cubeXform[14] = 0.0f - lightPos[2] * planeCoeff[3];
-
-            cubeXform[3] = 0.0f - lightPos[3] * planeCoeff[0];
-            cubeXform[7] = 0.0f - lightPos[3] * planeCoeff[1];
-            cubeXform[11] = 0.0f - lightPos[3] * planeCoeff[2];
-            cubeXform[15] = dot - lightPos[3] * planeCoeff[3];
-        }
+        //קובייה סטנדרטית במרחב תלת ממדי
         void DrawCube()
         {
             float size = 1.0f;
@@ -828,6 +618,420 @@ namespace OpenGL
 
             GL.glEnd();
         }
+
+
+        //רצפה משתפקת לשנות מיקום
+        void DrawFloor()
+        {
+            GL.glEnable(GL.GL_LIGHTING);
+            GL.glBegin(GL.GL_QUADS);
+            // רצפה כחולה שקופה קטנה - לצד החניון
+            GL.glColor4d(0, 0, 1, 0.5);
+            GL.glVertex3d(10, -3, 0);    // שמאל תחתון
+            GL.glVertex3d(10, 3, 0);     // שמאל עליון  
+            GL.glVertex3d(16, 3, 0);     // ימין עליון
+            GL.glVertex3d(16, -3, 0);    // ימין תחתון
+            GL.glEnd();
+        }
+        //אובייקטים על הרצפה המשתקפת צריך לשנות בהמשך
+        void DrawFigures()
+        {
+            GL.glPushMatrix();
+
+            // הזזה לצד החניון
+            GL.glTranslatef(13.0f, 0.0f, 0.0f); // הזזה ימינה לצד החניון
+
+            // מקור האור חייב להיות בסצנה כדי שישתקף גם
+            GL.glLightfv(GL.GL_LIGHT0, GL.GL_POSITION, pos);
+
+            // ציור מקור האור
+            GL.glDisable(GL.GL_LIGHTING);
+            GL.glTranslatef(pos[0] / 5, pos[1] / 5, pos[2] / 5); // הקטנה של מיקום האור
+                                                                 // מקור אור צהוב קטן
+            GL.glColor3f(1, 1, 0);
+            GLUT.glutSolidSphere(0.02, 8, 8); // כדור קטן יותר
+            GL.glTranslatef(-pos[0] / 5, -pos[1] / 5, -pos[2] / 5);
+
+            // קו הקרנה ממקור האור למישור
+            GL.glBegin(GL.GL_LINES);
+            GL.glColor3d(0.5, 0.5, 0);
+            GL.glVertex3d(pos[0] / 5, pos[1] / 5, 0);
+            GL.glVertex3d(pos[0] / 5, pos[1] / 5, pos[2] / 5);
+            GL.glEnd();
+
+            // הפעלת תאורה לאובייקטים
+            GL.glEnable(GL.GL_LIGHTING);
+
+            GL.glRotated(intOptionB, 0, 0, 1); // סיבוב שניהם
+
+            // הקטנת האובייקטים
+            GL.glScalef(0.3f, 0.3f, 0.3f); // הקטנה של כל האובייקטים
+
+            // קוביה אדומה מסתובבת
+            GL.glColor3f(1, 0, 0);
+            GL.glTranslated(0, -1.5, 1);
+            GL.glRotated(intOptionC, 1, 1, 1);
+            GLUT.glutSolidCube(1);
+            GL.glRotated(-intOptionC, 1, 1, 1);
+            GL.glTranslated(0, 1.5, -1);
+
+            // טיפות תה ציאן מסתובבת
+            GL.glTranslated(2, 1.5, 1.5);
+            GL.glRotated(90, 1, 0, 0);
+            GL.glColor3d(0, 1, 1);
+            GL.glRotated(intOptionB, 1, 0, 0);
+            GLUT.glutSolidTeapot(1);
+            GL.glRotated(-intOptionB, 1, 0, 0);
+            GL.glRotated(-90, 1, 0, 0);
+            GL.glTranslated(-2, -1.5, -1.5);
+
+            GL.glPopMatrix();
+        }
+
+
+        //טקסטורת שמיים
+        void LoadSkyboxTextures()
+        {
+            string[] skyboxNames = {
+        "skybox_back.jpg", "skybox_bottom.jpg","skybox_front.jpg"
+         , "skybox_left.jpg","skybox_right.jpg",
+        "skybox_top.jpg",
+    };
+
+            GL.glGenTextures(6, SkyboxTextures);
+
+            for (int i = 0; i < 6; i++)
+            {
+                Bitmap image = new Bitmap(@"Textures/Skybox/" + skyboxNames[i]);
+                image.RotateFlip(RotateFlipType.RotateNoneFlipY);
+
+                Rectangle rect = new Rectangle(0, 0, image.Width, image.Height);
+                BitmapData bitmapdata = image.LockBits(rect, ImageLockMode.ReadOnly, PixelFormat.Format24bppRgb);
+
+                GL.glBindTexture(GL.GL_TEXTURE_2D, SkyboxTextures[i]);
+                GL.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_WRAP_S, (int)GL.GL_CLAMP);
+                GL.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_WRAP_T, (int)GL.GL_CLAMP);
+                GL.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MIN_FILTER, (int)GL.GL_LINEAR);
+                GL.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MAG_FILTER, (int)GL.GL_LINEAR);
+
+                GL.glTexImage2D(GL.GL_TEXTURE_2D, 0, (int)GL.GL_RGB8, image.Width, image.Height,
+                                0, GL.GL_BGR_EXT, GL.GL_UNSIGNED_byte, bitmapdata.Scan0);
+
+                image.UnlockBits(bitmapdata);
+                image.Dispose();
+            }
+        }
+        //צורת מבנה השמיים
+        void DrawSkybox(float size, float uOffset, float vOffset)
+        {
+            GL.glDisable(GL.GL_LIGHTING);
+            GL.glEnable(GL.GL_TEXTURE_2D);
+            GL.glBindTexture(GL.GL_TEXTURE_2D, SkyboxTextures[0]); // טקסטורת שמיים
+
+            GL.glColor3f(1, 1, 1);
+            float half = size / 2f;
+
+            // רצפה (bottom)
+            GL.glBegin(GL.GL_QUADS);
+            GL.glTexCoord2f(0 + uOffset, 0 + vOffset); GL.glVertex3f(-half, -half, -half);
+            GL.glTexCoord2f(1 + uOffset, 0 + vOffset); GL.glVertex3f(half, -half, -half);
+            GL.glTexCoord2f(1 + uOffset, 1 + vOffset); GL.glVertex3f(half, half, -half);
+            GL.glTexCoord2f(0 + uOffset, 1 + vOffset); GL.glVertex3f(-half, half, -half);
+            GL.glEnd();
+
+            // תקרה (top)
+            GL.glBegin(GL.GL_QUADS);
+            GL.glTexCoord2f(0 + uOffset, 0 + vOffset); GL.glVertex3f(-half, -half, half);
+            GL.glTexCoord2f(1 + uOffset, 0 + vOffset); GL.glVertex3f(half, -half, half);
+            GL.glTexCoord2f(1 + uOffset, 1 + vOffset); GL.glVertex3f(half, half, half);
+            GL.glTexCoord2f(0 + uOffset, 1 + vOffset); GL.glVertex3f(-half, half, half);
+            GL.glEnd();
+
+            // קיר אחורי (back)
+            GL.glBegin(GL.GL_QUADS);
+            GL.glTexCoord2f(0 + uOffset, 0 + vOffset); GL.glVertex3f(-half, -half, -half);
+            GL.glTexCoord2f(1 + uOffset, 0 + vOffset); GL.glVertex3f(-half, -half, half);
+            GL.glTexCoord2f(1 + uOffset, 1 + vOffset); GL.glVertex3f(half, -half, half);
+            GL.glTexCoord2f(0 + uOffset, 1 + vOffset); GL.glVertex3f(half, -half, -half);
+            GL.glEnd();
+
+            // קיר קדמי (front)
+            GL.glBegin(GL.GL_QUADS);
+            GL.glTexCoord2f(0 + uOffset, 0 + vOffset); GL.glVertex3f(-half, half, -half);
+            GL.glTexCoord2f(1 + uOffset, 0 + vOffset); GL.glVertex3f(-half, half, half);
+            GL.glTexCoord2f(1 + uOffset, 1 + vOffset); GL.glVertex3f(half, half, half);
+            GL.glTexCoord2f(0 + uOffset, 1 + vOffset); GL.glVertex3f(half, half, -half);
+            GL.glEnd();
+
+            // קיר שמאלי (left)
+            GL.glBegin(GL.GL_QUADS);
+            GL.glTexCoord2f(0 + uOffset, 0 + vOffset); GL.glVertex3f(-half, -half, -half);
+            GL.glTexCoord2f(1 + uOffset, 0 + vOffset); GL.glVertex3f(-half, half, -half);
+            GL.glTexCoord2f(1 + uOffset, 1 + vOffset); GL.glVertex3f(-half, half, half);
+            GL.glTexCoord2f(0 + uOffset, 1 + vOffset); GL.glVertex3f(-half, -half, half);
+            GL.glEnd();
+
+            // קיר ימני (right)
+            GL.glBegin(GL.GL_QUADS);
+            GL.glTexCoord2f(0 + uOffset, 0 + vOffset); GL.glVertex3f(half, -half, -half);
+            GL.glTexCoord2f(1 + uOffset, 0 + vOffset); GL.glVertex3f(half, half, -half);
+            GL.glTexCoord2f(1 + uOffset, 1 + vOffset); GL.glVertex3f(half, half, half);
+            GL.glTexCoord2f(0 + uOffset, 1 + vOffset); GL.glVertex3f(half, -half, half);
+            GL.glEnd();
+
+            GL.glDisable(GL.GL_TEXTURE_2D);
+            GL.glEnable(GL.GL_LIGHTING);
+        }
+        //קריאה לטקסטורות
+        void GenerateTextures()
+        {
+            GL.glGenTextures(8, Textures);
+            string[] imagesName = { "floor.jpg", "parking_floor.jpg", "road.jpg", "Road_Center.jpg", "Security.jpg", "Waiting_Corner.jpg", "Wall_Parking.jpg", "Road_out2.jpg" };
+
+            string basePath = Application.StartupPath + @"\Textures\";
+
+            for (int i = 0; i < 8; i++) 
+            {
+                string fullPath = Path.Combine(basePath, imagesName[i]);
+
+                if (!File.Exists(fullPath))
+                {
+                    MessageBox.Show("קובץ לא נמצא: " + fullPath);
+                    continue;
+                }
+
+                Bitmap image = new Bitmap(fullPath);
+                image.RotateFlip(RotateFlipType.RotateNoneFlipY);
+                Rectangle rect = new Rectangle(0, 0, image.Width, image.Height);
+                BitmapData bitmapdata = image.LockBits(rect, ImageLockMode.ReadOnly, PixelFormat.Format24bppRgb);
+
+                GL.glBindTexture(GL.GL_TEXTURE_2D, Textures[i]);
+                GL.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_WRAP_S, (int)GL.GL_REPEAT);
+                GL.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_WRAP_T, (int)GL.GL_REPEAT);
+                GL.glTexImage2D(GL.GL_TEXTURE_2D, 0, (int)GL.GL_RGB8, image.Width, image.Height, 0, GL.GL_BGR_EXT, GL.GL_UNSIGNED_byte, bitmapdata.Scan0);
+                GL.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MIN_FILTER, (int)GL.GL_LINEAR);
+                GL.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MAG_FILTER, (int)GL.GL_LINEAR);
+
+                image.UnlockBits(bitmapdata);
+                image.Dispose();
+            }
+        }
+
+
+        //יצירת צל על ידי מטריצה מיוחדת
+        void MakeShadowMatrix(float[,] ground)
+        {
+            float[] planeCoeff = new float[4];
+            float dot;
+
+            float[] v1 = new float[3];
+            float[] v2 = new float[3];
+
+            v1[0] = ground[0, 0] - ground[1, 0];
+            v1[1] = ground[0, 1] - ground[1, 1];
+            v1[2] = ground[0, 2] - ground[1, 2];
+
+            v2[0] = ground[1, 0] - ground[2, 0];
+            v2[1] = ground[1, 1] - ground[2, 1];
+            v2[2] = ground[1, 2] - ground[2, 2];
+
+            planeCoeff[0] = v1[1] * v2[2] - v1[2] * v2[1];
+            planeCoeff[1] = v1[2] * v2[0] - v1[0] * v2[2];
+            planeCoeff[2] = v1[0] * v2[1] - v1[1] * v2[0];
+
+            float length = (float)Math.Sqrt(planeCoeff[0] * planeCoeff[0] +
+                                           planeCoeff[1] * planeCoeff[1] +
+                                           planeCoeff[2] * planeCoeff[2]);
+            if (length != 0)
+            {
+                planeCoeff[0] /= length;
+                planeCoeff[1] /= length;
+                planeCoeff[2] /= length;
+            }
+
+            planeCoeff[3] = -(planeCoeff[0] * ground[2, 0] +
+                              planeCoeff[1] * ground[2, 1] +
+                              planeCoeff[2] * ground[2, 2]);
+
+            float[] lightPos = { pos[0], pos[1], pos[2], pos[3] };
+
+            // מכפלה סקלרית
+            dot = planeCoeff[0] * lightPos[0] +
+                  planeCoeff[1] * lightPos[1] +
+                  planeCoeff[2] * lightPos[2] +
+                  planeCoeff[3] * lightPos[3];
+
+            cubeXform[0] = dot - lightPos[0] * planeCoeff[0];
+            cubeXform[4] = 0.0f - lightPos[0] * planeCoeff[1];
+            cubeXform[8] = 0.0f - lightPos[0] * planeCoeff[2];
+            cubeXform[12] = 0.0f - lightPos[0] * planeCoeff[3];
+
+            cubeXform[1] = 0.0f - lightPos[1] * planeCoeff[0];
+            cubeXform[5] = dot - lightPos[1] * planeCoeff[1];
+            cubeXform[9] = 0.0f - lightPos[1] * planeCoeff[2];
+            cubeXform[13] = 0.0f - lightPos[1] * planeCoeff[3];
+
+            cubeXform[2] = 0.0f - lightPos[2] * planeCoeff[0];
+            cubeXform[6] = 0.0f - lightPos[2] * planeCoeff[1];
+            cubeXform[10] = dot - lightPos[2] * planeCoeff[2];
+            cubeXform[14] = 0.0f - lightPos[2] * planeCoeff[3];
+
+            cubeXform[3] = 0.0f - lightPos[3] * planeCoeff[0];
+            cubeXform[7] = 0.0f - lightPos[3] * planeCoeff[1];
+            cubeXform[11] = 0.0f - lightPos[3] * planeCoeff[2];
+            cubeXform[15] = dot - lightPos[3] * planeCoeff[3];
+        }
+        //ציור הרכב עצמו
+        void DrawUpgradedWaitingCar(bool isShadow = false)
+        {
+            GL.glTranslatef(0, 0, 0.25f);
+            GL.glRotatef(-180, 0, 0, 1);
+            GL.glEnable(GL.GL_COLOR_MATERIAL);
+            GL.glColorMaterial(GL.GL_FRONT, GL.GL_AMBIENT_AND_DIFFUSE);
+
+            blinkTimer += 0.1f;
+            if (blinkTimer > 1.0f) blinkTimer = 0.0f;
+
+            bool showLights = carLightsOn;
+            if (carBlinking)
+                showLights = blinkTimer < 0.5f;
+
+            void SafeColor(float r, float g, float b)
+            {
+                if (isShadow)
+                    GL.glColor3f(0.2f, 0.2f, 0.2f);
+                else
+                    GL.glColor3f(r, g, b);
+            }
+
+            // בסיס הרכב
+            if (!isShadow) setCarColor(); else SafeColor(0, 0, 0);
+            GL.glPushMatrix();
+            GL.glScalef(1.5f, 0.6f, 0.3f);
+            DrawCube();
+            GL.glPopMatrix();
+
+            if (!isShadow) setCarColor(); else SafeColor(0, 0, 0);
+            GL.glPushMatrix();
+            GL.glTranslatef(0.0f, 0.0f, 0.25f);
+            GL.glScalef(1.2f, 0.5f, 0.4f);
+            DrawCube();
+            GL.glPopMatrix();
+
+            if (!isShadow) setCarColor(); else SafeColor(0, 0, 0);
+            GL.glPushMatrix();
+            GL.glTranslatef(-0.1f, 0.0f, 0.5f);
+            GL.glScalef(0.8f, 0.4f, 0.3f);
+            DrawCube();
+            GL.glPopMatrix();
+
+            if (!isShadow) setCarColor(); else SafeColor(0, 0, 0);
+            GL.glPushMatrix();
+            GL.glTranslatef(0.5f, 0.0f, 0.32f);
+            GL.glScalef(0.5f, 0.5f, 0.15f);
+            DrawCube();
+            GL.glPopMatrix();
+
+            SafeColor(0.3f, 0.5f, 0.8f); // שמשות
+            GL.glPushMatrix(); GL.glTranslatef(0.3f, 0.0f, 0.55f); GL.glScalef(0.02f, 0.35f, 0.25f); DrawCube(); GL.glPopMatrix();
+            GL.glPushMatrix(); GL.glTranslatef(-0.3f, 0.0f, 0.55f); GL.glScalef(0.02f, 0.35f, 0.2f); DrawCube(); GL.glPopMatrix();
+            GL.glPushMatrix(); GL.glTranslatef(0.0f, 0.26f, 0.55f); GL.glScalef(0.3f, 0.02f, 0.2f); DrawCube(); GL.glPopMatrix();
+            GL.glPushMatrix(); GL.glTranslatef(0.0f, -0.26f, 0.55f); GL.glScalef(0.3f, 0.02f, 0.2f); DrawCube(); GL.glPopMatrix();
+
+            float wheelOffsetX = 0.5f, wheelOffsetY = 0.35f, wheelOffsetZ = -0.1f;
+            for (int i = 0; i < 4; i++)
+            {
+                float x = (i < 2) ? wheelOffsetX : -wheelOffsetX;
+                float y = (i % 2 == 0) ? wheelOffsetY : -wheelOffsetY;
+
+                SafeColor(0.1f, 0.1f, 0.1f); // גלגל חיצוני
+                GL.glPushMatrix(); GL.glTranslatef(x, y, wheelOffsetZ); GL.glScalef(0.25f, 0.25f, 0.15f); DrawCube(); GL.glPopMatrix();
+
+                SafeColor(0.7f, 0.7f, 0.8f); // חישוק
+                GL.glPushMatrix(); GL.glTranslatef(x, y, wheelOffsetZ); GL.glScalef(0.15f, 0.15f, 0.08f); DrawCube(); GL.glPopMatrix();
+            }
+
+            // פנסים קדמיים
+            if (isShadow)
+                SafeColor(0, 0, 0);
+            else if (showLights)
+                GL.glColor3f(1.0f, 1.0f, 0.9f);
+            else
+                GL.glColor3f(0.6f, 0.6f, 0.6f);
+            GL.glPushMatrix(); GL.glTranslatef(0.76f, 0.2f, 0.25f); GL.glScalef(0.12f, 0.12f, 0.08f); DrawCube(); GL.glPopMatrix();
+            GL.glPushMatrix(); GL.glTranslatef(0.76f, -0.2f, 0.25f); GL.glScalef(0.12f, 0.12f, 0.08f); DrawCube(); GL.glPopMatrix();
+            GL.glPushMatrix(); GL.glTranslatef(0.76f, 0.1f, 0.4f); GL.glScalef(0.06f, 0.06f, 0.04f); DrawCube(); GL.glPopMatrix();
+            GL.glPushMatrix(); GL.glTranslatef(0.76f, -0.1f, 0.4f); GL.glScalef(0.06f, 0.06f, 0.04f); DrawCube(); GL.glPopMatrix();
+
+            SafeColor(0.9f, 0.1f, 0.1f); // אורות אחוריים
+            GL.glPushMatrix(); GL.glTranslatef(-0.76f, 0.2f, 0.25f); GL.glScalef(0.08f, 0.1f, 0.06f); DrawCube(); GL.glPopMatrix();
+            GL.glPushMatrix(); GL.glTranslatef(-0.76f, -0.2f, 0.25f); GL.glScalef(0.08f, 0.1f, 0.06f); DrawCube(); GL.glPopMatrix();
+            GL.glPushMatrix(); GL.glTranslatef(-0.76f, 0.0f, 0.4f); GL.glScalef(0.06f, 0.3f, 0.04f); DrawCube(); GL.glPopMatrix();
+
+            if (!isShadow) setCarColor(); else SafeColor(0, 0, 0); // פגושים
+            GL.glPushMatrix(); GL.glTranslatef(0.8f, 0.0f, 0.1f); GL.glScalef(0.08f, 0.8f, 0.12f); DrawCube(); GL.glPopMatrix();
+            GL.glPushMatrix(); GL.glTranslatef(-0.8f, 0.0f, 0.1f); GL.glScalef(0.08f, 0.8f, 0.12f); DrawCube(); GL.glPopMatrix();
+
+            SafeColor(0.2f, 0.2f, 0.2f); // רשת
+            GL.glPushMatrix(); GL.glTranslatef(0.75f, 0.0f, 0.35f); GL.glScalef(0.02f, 0.4f, 0.1f); DrawCube(); GL.glPopMatrix();
+
+            SafeColor(0.3f, 0.3f, 0.3f); // אנטנה
+            GL.glPushMatrix(); GL.glTranslatef(-0.4f, 0.0f, 0.8f); GL.glScalef(0.01f, 0.01f, 0.2f); DrawCube(); GL.glPopMatrix();
+
+            SafeColor(0.9f, 0.9f, 0.9f); // לוחיות
+            GL.glPushMatrix(); GL.glTranslatef(0.78f, 0.0f, 0.0f); GL.glScalef(0.02f, 0.3f, 0.08f); DrawCube(); GL.glPopMatrix();
+            GL.glPushMatrix(); GL.glTranslatef(-0.78f, 0.0f, 0.0f); GL.glScalef(0.02f, 0.3f, 0.08f); DrawCube(); GL.glPopMatrix();
+
+            if (!isShadow) setCarColor(); else SafeColor(0, 0, 0); // מראות
+            GL.glPushMatrix(); GL.glTranslatef(0.2f, 0.32f, 0.6f); GL.glScalef(0.05f, 0.08f, 0.05f); DrawCube(); GL.glPopMatrix();
+            GL.glPushMatrix(); GL.glTranslatef(0.2f, -0.32f, 0.6f); GL.glScalef(0.05f, 0.08f, 0.05f); DrawCube(); GL.glPopMatrix();
+        }
+        //צבע רכב דיפולטיבי
+        private void setCarColor()
+        {
+            if (isColored)
+            {
+                float r, g, b;
+                r = (float)rd.NextDouble();
+                g = (float)rd.NextDouble();
+                b = (float)rd.NextDouble();
+                GL.glColor3f(r, g, b);
+            }
+            else
+                GL.glColor3f(1.0f, 0.0f, 0.0f); // אדום ברירת מחדל
+
+        }
+        //רכב + הצל שלו על הקרקע
+        void DrawCarWithShadow(float x, float y, float z, float angle = 0)
+        {
+            GL.glPushMatrix();
+            GL.glTranslatef(x, y, z);
+
+            // ציור הצל
+            GL.glDisable(GL.GL_LIGHTING);
+            GL.glEnable(GL.GL_POLYGON_OFFSET_FILL);
+            GL.glPolygonOffset(-2.0f, -4.0f);
+
+            GL.glPushMatrix();
+            MakeShadowMatrix(ground);
+            GL.glMultMatrixf(cubeXform);
+            GL.glRotatef(angle, 0, 0, 1);
+            GL.glColor3f(0.4f, 0.4f, 0.4f);
+            DrawUpgradedWaitingCar(true);
+            GL.glPopMatrix();
+
+            GL.glDisable(GL.GL_POLYGON_OFFSET_FILL);
+            GL.glEnable(GL.GL_LIGHTING);
+
+            // ציור הרכב
+            GL.glRotatef(angle, 0, 0, 1);
+            DrawUpgradedWaitingCar(false);
+
+            GL.glPopMatrix();
+        }
+
+
+
         // עמוד תאורה 
         void DrawStreetLamp(float x, float y, float rotationAngleDeg = 0, int lampType = 1)
 
@@ -982,6 +1186,7 @@ namespace OpenGL
             GL.glPopMatrix();
             GL.glPopMatrix();
         }
+        //עיגול תאורה מסביב לעמוד תאורה
         void DrawLightCircleOnGround(float centerX, float centerY, float radius)
         {
             // אפקט אור על הקרקע עיגול מואר
@@ -992,7 +1197,7 @@ namespace OpenGL
             GL.glBegin(GL.GL_TRIANGLE_FAN);
             // מרכז העיגול הכי בהיר
             GL.glColor4f(7.0f, 7.95f, 7.8f, 7.3f);
-            GL.glVertex3f(centerX, centerY, 0.002f);   
+            GL.glVertex3f(centerX, centerY, 0.002f);
 
             // קצוות העיגול דוהים
             GL.glColor4f(1.0f, 0.9f, 0.7f, 0.0f);
@@ -1162,7 +1367,7 @@ namespace OpenGL
             GL.glDisable(GL.GL_TEXTURE_2D);
         }
 
-        //   השער     
+        //השער     
         void DrawGate(float x, float y)
         {
             GL.glPushMatrix();
@@ -1297,7 +1502,9 @@ namespace OpenGL
             GL.glPopMatrix(); // סוף מחסום השער
             GL.glPopMatrix();
         }
-        //חומות
+
+
+        //כל החומות בחניון
         void DrawParkingWall()
         {
             GL.glEnable(GL.GL_TEXTURE_2D);
@@ -1454,7 +1661,7 @@ namespace OpenGL
 
             GL.glDisable(GL.GL_BLEND);
         }
-
+        //מציירת קיר מלבני ארוך עם גובה
         void DrawWallSection(float x1, float y1, float x2, float y2, float height)
         {
             float texRepeatX = (x2 - x1) / 1.5f;
@@ -1495,8 +1702,7 @@ namespace OpenGL
 
             GL.glEnd();
         }
-
-
+        //ציור עמוד תלת מימדי  
         void DrawPost(float x, float y, float width, float height)
         {
             float texRepeat = height / 0.3f; 
@@ -1535,6 +1741,8 @@ namespace OpenGL
 
             GL.glEnd();
         }
+
+
 
         // פונקציה לציור רמזור
         void DrawTrafficLight(float x, float y, float z)
@@ -1629,7 +1837,6 @@ namespace OpenGL
 
             GL.glPopMatrix();
         }
-
         // עדכון מצב הרמזור האוטומטי
         void UpdateTrafficLight()
         {
@@ -1660,202 +1867,15 @@ namespace OpenGL
             autoTrafficLight = false;
             trafficLightState = state; 
         }
-
         // פונקציה להפעלת מצב אוטומטי
         public void EnableAutoTrafficLight()
         {
             autoTrafficLight = true;
             trafficLightTimer = 0.0f;
         }
-        private void setColor()
-        {
-            if (isColored)
-            {
-                float r, g, b;
-                r = (float)rd.NextDouble();
-                g = (float)rd.NextDouble();
-                b = (float)rd.NextDouble();
-                GL.glColor3f(r, g, b);
-            }
-            else
-                GL.glColor3f(1, 1, 0); // צהוב ברירת מחדל
-        }
-
-        void DrawUpgradedWaitingCar(bool isShadow = false)
-        {
-            GL.glTranslatef(0, 0, 0.25f);
-            GL.glRotatef(-180, 0, 0, 1);
-            GL.glEnable(GL.GL_COLOR_MATERIAL);
-            GL.glColorMaterial(GL.GL_FRONT, GL.GL_AMBIENT_AND_DIFFUSE);
-
-            blinkTimer += 0.1f;
-            if (blinkTimer > 1.0f) blinkTimer = 0.0f;
-
-            bool showLights = carLightsOn;
-            if (carBlinking)
-                showLights = blinkTimer < 0.5f;
-
-            void SafeColor(float r, float g, float b)
-            {
-                if (isShadow)
-                    GL.glColor3f(0.2f, 0.2f, 0.2f);
-                else
-                    GL.glColor3f(r, g, b);
-            }
-
-            // בסיס הרכב
-            if (!isShadow) setColor(); else SafeColor(0, 0, 0);
-            GL.glPushMatrix();
-            GL.glScalef(1.5f, 0.6f, 0.3f);
-            DrawCube();
-            GL.glPopMatrix();
-
-            if (!isShadow) setColor(); else SafeColor(0, 0, 0);
-            GL.glPushMatrix();
-            GL.glTranslatef(0.0f, 0.0f, 0.25f);
-            GL.glScalef(1.2f, 0.5f, 0.4f);
-            DrawCube();
-            GL.glPopMatrix();
-
-            if (!isShadow) setColor(); else SafeColor(0, 0, 0);
-            GL.glPushMatrix();
-            GL.glTranslatef(-0.1f, 0.0f, 0.5f);
-            GL.glScalef(0.8f, 0.4f, 0.3f);
-            DrawCube();
-            GL.glPopMatrix();
-
-            if (!isShadow) setColor(); else SafeColor(0, 0, 0);
-            GL.glPushMatrix();
-            GL.glTranslatef(0.5f, 0.0f, 0.32f);
-            GL.glScalef(0.5f, 0.5f, 0.15f);
-            DrawCube();
-            GL.glPopMatrix();
-
-            SafeColor(0.3f, 0.5f, 0.8f); // שמשות
-            GL.glPushMatrix(); GL.glTranslatef(0.3f, 0.0f, 0.55f); GL.glScalef(0.02f, 0.35f, 0.25f); DrawCube(); GL.glPopMatrix();
-            GL.glPushMatrix(); GL.glTranslatef(-0.3f, 0.0f, 0.55f); GL.glScalef(0.02f, 0.35f, 0.2f); DrawCube(); GL.glPopMatrix();
-            GL.glPushMatrix(); GL.glTranslatef(0.0f, 0.26f, 0.55f); GL.glScalef(0.3f, 0.02f, 0.2f); DrawCube(); GL.glPopMatrix();
-            GL.glPushMatrix(); GL.glTranslatef(0.0f, -0.26f, 0.55f); GL.glScalef(0.3f, 0.02f, 0.2f); DrawCube(); GL.glPopMatrix();
-
-            float wheelOffsetX = 0.5f, wheelOffsetY = 0.35f, wheelOffsetZ = -0.1f;
-            for (int i = 0; i < 4; i++)
-            {
-                float x = (i < 2) ? wheelOffsetX : -wheelOffsetX;
-                float y = (i % 2 == 0) ? wheelOffsetY : -wheelOffsetY;
-
-                SafeColor(0.1f, 0.1f, 0.1f); // גלגל חיצוני
-                GL.glPushMatrix(); GL.glTranslatef(x, y, wheelOffsetZ); GL.glScalef(0.25f, 0.25f, 0.15f); DrawCube(); GL.glPopMatrix();
-
-                SafeColor(0.7f, 0.7f, 0.8f); // חישוק
-                GL.glPushMatrix(); GL.glTranslatef(x, y, wheelOffsetZ); GL.glScalef(0.15f, 0.15f, 0.08f); DrawCube(); GL.glPopMatrix();
-            }
-
-            // פנסים קדמיים
-            if (isShadow)
-                SafeColor(0, 0, 0);
-            else if (showLights)
-                GL.glColor3f(1.0f, 1.0f, 0.9f);
-            else
-                GL.glColor3f(0.6f, 0.6f, 0.6f);
-            GL.glPushMatrix(); GL.glTranslatef(0.76f, 0.2f, 0.25f); GL.glScalef(0.12f, 0.12f, 0.08f); DrawCube(); GL.glPopMatrix();
-            GL.glPushMatrix(); GL.glTranslatef(0.76f, -0.2f, 0.25f); GL.glScalef(0.12f, 0.12f, 0.08f); DrawCube(); GL.glPopMatrix();
-            GL.glPushMatrix(); GL.glTranslatef(0.76f, 0.1f, 0.4f); GL.glScalef(0.06f, 0.06f, 0.04f); DrawCube(); GL.glPopMatrix();
-            GL.glPushMatrix(); GL.glTranslatef(0.76f, -0.1f, 0.4f); GL.glScalef(0.06f, 0.06f, 0.04f); DrawCube(); GL.glPopMatrix();
-
-            SafeColor(0.9f, 0.1f, 0.1f); // אורות אחוריים
-            GL.glPushMatrix(); GL.glTranslatef(-0.76f, 0.2f, 0.25f); GL.glScalef(0.08f, 0.1f, 0.06f); DrawCube(); GL.glPopMatrix();
-            GL.glPushMatrix(); GL.glTranslatef(-0.76f, -0.2f, 0.25f); GL.glScalef(0.08f, 0.1f, 0.06f); DrawCube(); GL.glPopMatrix();
-            GL.glPushMatrix(); GL.glTranslatef(-0.76f, 0.0f, 0.4f); GL.glScalef(0.06f, 0.3f, 0.04f); DrawCube(); GL.glPopMatrix();
-
-            if (!isShadow) setColor(); else SafeColor(0, 0, 0); // פגושים
-            GL.glPushMatrix(); GL.glTranslatef(0.8f, 0.0f, 0.1f); GL.glScalef(0.08f, 0.8f, 0.12f); DrawCube(); GL.glPopMatrix();
-            GL.glPushMatrix(); GL.glTranslatef(-0.8f, 0.0f, 0.1f); GL.glScalef(0.08f, 0.8f, 0.12f); DrawCube(); GL.glPopMatrix();
-
-            SafeColor(0.2f, 0.2f, 0.2f); // רשת
-            GL.glPushMatrix(); GL.glTranslatef(0.75f, 0.0f, 0.35f); GL.glScalef(0.02f, 0.4f, 0.1f); DrawCube(); GL.glPopMatrix();
-
-            SafeColor(0.3f, 0.3f, 0.3f); // אנטנה
-            GL.glPushMatrix(); GL.glTranslatef(-0.4f, 0.0f, 0.8f); GL.glScalef(0.01f, 0.01f, 0.2f); DrawCube(); GL.glPopMatrix();
-
-            SafeColor(0.9f, 0.9f, 0.9f); // לוחיות
-            GL.glPushMatrix(); GL.glTranslatef(0.78f, 0.0f, 0.0f); GL.glScalef(0.02f, 0.3f, 0.08f); DrawCube(); GL.glPopMatrix();
-            GL.glPushMatrix(); GL.glTranslatef(-0.78f, 0.0f, 0.0f); GL.glScalef(0.02f, 0.3f, 0.08f); DrawCube(); GL.glPopMatrix();
-
-            if (!isShadow) setColor(); else SafeColor(0, 0, 0); // מראות
-            GL.glPushMatrix(); GL.glTranslatef(0.2f, 0.32f, 0.6f); GL.glScalef(0.05f, 0.08f, 0.05f); DrawCube(); GL.glPopMatrix();
-            GL.glPushMatrix(); GL.glTranslatef(0.2f, -0.32f, 0.6f); GL.glScalef(0.05f, 0.08f, 0.05f); DrawCube(); GL.glPopMatrix();
-        }
-
-        public void OnResize()
-        {
-            Width = p.Width;
-            Height = p.Height;
-            GL.glViewport(0, 0, Width, Height);
-            Draw();
-        }
-
-        protected virtual void InitializeGL()
-        {
-            uint hwnd = (uint)p.Handle;
-            uint dc = WGL.GetDC(hwnd);
-            WGL.wglSwapBuffers(dc);
-
-            WGL.PIXELFORMATDESCRIPTOR pfd = new WGL.PIXELFORMATDESCRIPTOR();
-            WGL.ZeroPixelDescriptor(ref pfd);
-            pfd.nVersion = 1;
-            pfd.dwFlags = (WGL.PFD_DRAW_TO_WINDOW | WGL.PFD_SUPPORT_OPENGL | WGL.PFD_DOUBLEBUFFER);
-            pfd.iPixelType = (byte)(WGL.PFD_TYPE_RGBA);
-            pfd.cColorBits = 32;
-            pfd.cDepthBits = 32;
-            pfd.cStencilBits = 32;  
-            pfd.iLayerType = (byte)(WGL.PFD_MAIN_PLANE);
-
-            int pixelFormatIndex = WGL.ChoosePixelFormat(dc, ref pfd);
-            WGL.SetPixelFormat(dc, pixelFormatIndex, ref pfd);
-            uint rc = WGL.wglCreateContext(dc);
-            WGL.wglMakeCurrent(dc, rc);
-
-            // הפעלת בדיקת עומק
-            GL.glEnable(GL.GL_DEPTH_TEST);
-            GL.glDepthFunc(GL.GL_LEQUAL);
-
-            // הפעלת תאורה כללית
-            GL.glEnable(GL.GL_LIGHTING);
-            GL.glEnable(GL.GL_LIGHT0);
-
-            // הגדרת מקור האור מיקום אלכסוני עם עוצמה מעט גבוהה יותר
-            float[] light_position = { 12.0f, -12.0f, 10.0f, 1.0f };
-            float[] light_ambient = { 0.35f, 0.35f, 0.35f, 1.0f };
-            float[] light_diffuse = { 0.75f, 0.75f, 0.75f, 1.0f };
-            float[] light_specular = { 0.4f, 0.4f, 0.4f, 1.0f };
-
-            GL.glLightfv(GL.GL_LIGHT0, GL.GL_POSITION, light_position);
-            GL.glLightfv(GL.GL_LIGHT0, GL.GL_AMBIENT, light_ambient);
-            GL.glLightfv(GL.GL_LIGHT0, GL.GL_DIFFUSE, light_diffuse);
-            GL.glLightfv(GL.GL_LIGHT0, GL.GL_SPECULAR, light_specular);
-
-            // הפעלת חומר מבוסס צבע
-            GL.glEnable(GL.GL_COLOR_MATERIAL);
-            GL.glColorMaterial(GL.GL_FRONT, GL.GL_AMBIENT_AND_DIFFUSE);
-
-            // צבע רקע שחור שקוף
-            GL.glClearColor(0f, 0f, 0f, 0f);
-
-            // הגדרת פרספקטיבה ומטריצות
-            GL.glViewport(0, 0, Width, Height);
-            GL.glMatrixMode(GL.GL_PROJECTION);
-            GL.glLoadIdentity();
-            GLU.gluPerspective(45.0f, (float)Width / Height, 1.0f, 5000.0f);
-            GL.glMatrixMode(GL.GL_MODELVIEW);
-            GL.glLoadIdentity();
-
-            // טעינת הטקסטורות
-            GenerateTextures();
-            LoadSkyboxTextures();
-
-            GL.glEnable(GL.GL_STENCIL_TEST);
-            GL.glClearStencil(0);
-        }
+       
+        
+        //מצב השער 
         public void ToggleGate()
         {
             if (!gateMoving)
@@ -1864,7 +1884,7 @@ namespace OpenGL
                 gateOpen = !gateOpen;
             }
         }
-        //פתיחת השער
+        //עדכון האנמיציה בעת פתיחת השער
         public void UpdateGateAnimation()
         {
             if (gateMoving)
