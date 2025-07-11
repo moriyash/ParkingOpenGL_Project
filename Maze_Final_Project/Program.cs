@@ -6,7 +6,7 @@ using System.Windows.Forms;
 using myOpenGL;
 
 
-namespace Maze_Final_Project
+namespace Parking_Final_Project
 {
     internal static class Program
     {
