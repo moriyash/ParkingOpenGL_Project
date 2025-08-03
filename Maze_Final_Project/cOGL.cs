@@ -122,7 +122,7 @@ namespace OpenGL
             }
         }
 
-        public Vector3[] objectPositions = new Vector3[3]; // עבור Car1, Car2, Gate
+        public Vector3[] objectPositions = new Vector3[3]; 
 
         public bool sunEnabled = true;
         public float[] sunColor = new float[3] { 1.0f, 0.95f, 0.8f };

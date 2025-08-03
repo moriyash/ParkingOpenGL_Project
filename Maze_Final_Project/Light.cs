@@ -18,7 +18,7 @@ namespace OpenGL
             //GL.glLightfv(GL.GL_LIGHT0, GL.GL_POSITION, light_position);
 
             float[] lightPos = { pos[0], pos[1], pos[2], 1.0f };
-            float intensity = light1Intensity * 0.3f;  // עוצמה חזקה
+            float intensity = light1Intensity * 0.3f;  
             float[] bright = { intensity, intensity, intensity, 1.0f };
             float[] dim = { intensity * 0.1f, intensity * 0.1f, intensity * 0.1f, 1.0f };
 

@@ -764,7 +764,7 @@ namespace OpenGL
             // original street lamp
             GL.glPushMatrix();
             GL.glTranslatef(x + 0.4f, y, 0);
-            GL.glRotatef(rotationAngleDeg, 0, 0, 1); // סיבוב סביב ציר Z
+            GL.glRotatef(rotationAngleDeg, 0, 0, 1); 
 
             GL.glScalef(0.6f, 0.6f, 0.6f);
 

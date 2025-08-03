@@ -65,7 +65,7 @@ namespace myOpenGL
             mainControls.Size = new Size(140, 780);
             this.Controls.Add(mainControls);
 
-            // LIGHTING
+            // lighting
             GroupBox lightingBox = new GroupBox()
             {
                 Text = "Light",
@@ -164,7 +164,7 @@ namespace myOpenGL
         lblLightPosZ, lightPosZ, lblLightPosZVal,
     });
 
-            // OBJECTS BOX 
+            // objects 
             GroupBox objectsBox = new GroupBox()
             {
                 Text = "Objects",
@@ -309,7 +309,7 @@ namespace myOpenGL
         lblPosZ, posBarZ, lblPosZVal
     });
 
-            // TEXTURES BOX
+            // textures
             GroupBox texturesBox = new GroupBox()
             {
                 Text = "Textures",
@@ -342,7 +342,7 @@ namespace myOpenGL
 
             texturesBox.Controls.AddRange(new Control[] { texturesCheckBox, materialBox });
 
-            // ANIMATION BOX
+            // animation
             GroupBox animationBox = new GroupBox()
             {
                 Text = "Animation",
@@ -372,7 +372,7 @@ namespace myOpenGL
 
             animationBox.Controls.AddRange(new Control[] { car1Btn, car2Btn, lblSpeed, speedBar, gateBtn });
 
-            // VIEW BOX
+            // view box
             GroupBox viewBox = new GroupBox()
             {
                 Text = "View Control",
@@ -401,7 +401,7 @@ namespace myOpenGL
 
             viewBox.Controls.AddRange(new Control[] { projectionBtn, lblZoom, zoomBar });
 
-            // GLOBAL LIGHTING
+            // global
             GroupBox globalLightBox = new GroupBox()
             {
                 Text = "Global Light",
@@ -462,7 +462,7 @@ namespace myOpenGL
 
             globalLightBox.Controls.AddRange(new Control[] { lblAmbient, ambientBar, radioSunOn, radioSunOff });
 
-            // SCENE ACTIONS
+            // scene
             GroupBox sceneBox = new GroupBox()
             {
                 Text = "Scene Actions",
@@ -570,7 +570,7 @@ namespace myOpenGL
         lblTranslation, lblTransX, transXControl, lblTransY, transYControl, lblTransZ, transZControl
     });
 
-            //  FILE BOX 
+            //  file 
             GroupBox fileBox = new GroupBox()
             {
                 Text = "File",
@@ -605,7 +605,6 @@ namespace myOpenGL
             }
             cGL.Draw();
         }
-
         private void ApplyObjectRotation(int objIndex, float rotation)
         {
             switch (objIndex)
@@ -621,9 +620,7 @@ namespace myOpenGL
                     break;
             }
             cGL.Draw();
-        }
-
-        
+        }   
         private void ApplyMaterial(int materialIndex)
         {
             string[] materialTypes = { "gold", "emerald", "chrome" };
@@ -654,7 +651,6 @@ namespace myOpenGL
                 }
             }
         }
-
         private void LoadScene()
         {
             OpenFileDialog dlg = new OpenFileDialog()
@@ -674,26 +670,18 @@ namespace myOpenGL
                 }
             }
         }
-
-
-        
-
-
         private void UpdateLightButton1()
         {
             lightButton1.Text = cGL.light1On ? "Light ON" : "Light OFF";
             lightButton1.BackColor = cGL.light1On ? Color.Yellow : Color.Gray;
         }
-
         private void panel1_Paint(object sender, PaintEventArgs e) => cGL.Draw();
         private void panel1_Resize(object sender, EventArgs e) => cGL.OnResize();
-
         private void timer1_Tick(object sender, EventArgs e)
         {
             cGL.UpdateCars();
             cGL.Draw();
         }
-
         private void panel1_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
@@ -703,7 +691,6 @@ namespace myOpenGL
                 cGL.lastMouseY = e.Y;
             }
         }
-
         private void panel1_MouseMove(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
@@ -737,7 +724,6 @@ namespace myOpenGL
                 cGL.lastMouseY = e.Y;
             }
         }
-
         private void panel1_MouseWheel(object sender, MouseEventArgs e)
         {
             if (e.Delta > 0)
@@ -748,9 +734,6 @@ namespace myOpenGL
             cGL.zoomDistance = Math.Max(6.0f, Math.Min(25.0f, cGL.zoomDistance));
             cGL.Draw();
         }
-
-       
-
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
             float moveSpeed = 0.3f;
@@ -783,7 +766,6 @@ namespace myOpenGL
             cGL.Draw();
             e.Handled = true;
         }
-
     }
     //private void hScrollBar11_Scroll(object sender, ScrollEventArgs e)
     //{

@@ -50,7 +50,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Character.cs" />
-    <Compile Include="Material.cs" />
     <Compile Include="milkshake\Matrix.cs" />
     <Compile Include="milkshake\MilkshapeModel.cs" />
     <Compile Include="milkshake\Model.cs" />
