@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="OpenGL.cOGL" Collapsed="true">
+    <Position X="3" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CegQGJMBVAKh4xhaQBAQANMFDDACBSBAAEAUA2AQgBA=</HashCode>
+      <FileName>cOGL.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OpenGL.GLU" Collapsed="true">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>jECtZkmLBMhsXzwFIWzllN47cTADySXMv+VLQR42E84=</HashCode>
+      <FileName>GLU.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OpenGL.GLUT" Collapsed="true">
+    <Position X="0.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>pRIBAABQAMQABQgEEIAMAmAAAEBAIBAgEoBAQciNVg8=</HashCode>
+      <FileName>GLUT.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OpenGL.GL" Collapsed="true">
+    <Position X="6.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>///v+//7//f9/////f//3///3/v///v///////////8=</HashCode>
+      <FileName>OpenGL.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OpenGL.WGL" Collapsed="true">
+    <Position X="3" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>UoQAARAAAAAQIAABEgAIMAAEQCAABgBAIACgAQgoBQI=</HashCode>
+      <FileName>WGL.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="myOpenGL.Form1" Collapsed="true">
+    <Position X="4.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BDRMACBIACAAAAAAAECAAAACAAAAMAAAAABAAQCAAUE=</HashCode>
+      <FileName>Form1.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Parking_Final_Project.Program" Collapsed="true">
+    <Position X="3" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Program.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ParkingGL_Project.Properties.Resources" Collapsed="true">
+    <Position X="4.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAABEAAAAQAAAAAAAAAAAAAAAIA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ParkingGL_Project.Properties.Settings" Collapsed="true">
+    <Position X="6.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAABAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="OpenGL.GLUquadric" Collapsed="true">
+    <Position X="3" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAA=</HashCode>
+      <FileName>GLU.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
