@@ -166,6 +166,7 @@ namespace OpenGL
         }
         public void Draw()
         {
+            //draw all scene
             if (p == null) return;
             if (texturesEnabled)
             {
@@ -223,10 +224,10 @@ namespace OpenGL
 
             intOptionB += 2;
             intOptionC += 1;
-
+            //trans
             GL.glEnable(GL.GL_BLEND);
             GL.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
-
+            //reflection
             GL.glEnable(GL.GL_STENCIL_TEST);
             GL.glStencilOp(GL.GL_REPLACE, GL.GL_REPLACE, GL.GL_REPLACE);
             GL.glStencilFunc(GL.GL_ALWAYS, 1, 0xFFFFFFFF);
@@ -272,6 +273,7 @@ namespace OpenGL
         }
         public void OnResize()
         {
+            //perspective
             Width = p.Width;
             Height = p.Height;
             GL.glViewport(0, 0, Width, Height);
@@ -284,7 +286,7 @@ namespace OpenGL
             if (isOrthogonal)
             {
                 float size = zoomDistance;
-                GL.glOrtho(-size * aspect, size * aspect, -size, size, 1.0, 100.0);
+                GL.glOrtho(-size * aspect, size * aspect, -size, size, 1.0, 50.0);
             }
             else
             {
@@ -297,6 +299,7 @@ namespace OpenGL
         }
         protected virtual void InitializeGL()
         {
+            //format pixel
             uint hwnd = (uint)p.Handle;
             uint dc = WGL.GetDC(hwnd);
 
@@ -381,6 +384,7 @@ namespace OpenGL
         }
         public void SetFieldOfView(float fov)
         {
+            //change perpective
             fieldOfView = fov;
             OnResize(); 
         }

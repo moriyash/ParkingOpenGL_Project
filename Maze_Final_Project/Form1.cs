@@ -42,13 +42,6 @@ namespace myOpenGL
             cGL = new cOGL(panel1);
             cGL.InitializeCarRoutes();
 
-            ////hScrollBar11_Scroll(hScrollBar11, null);
-            //hScrollBar12_Scroll(hScrollBar12, null);
-            //hScrollBar13_Scroll(hScrollBar13, null);
-
-            //UpdateSelectedLightIntensity();
-            //UpdateSelectedLightRadius();
-
             this.KeyPreview = true;
             this.KeyDown += Form1_KeyDown;
 
@@ -65,50 +58,49 @@ namespace myOpenGL
             mainControls.Size = new Size(140, 780);
             this.Controls.Add(mainControls);
 
-            // lighting
+            // lighting box
             GroupBox lightingBox = new GroupBox()
             {
                 Text = "Light",
                 Location = new Point(5, 15),
-                Size = new Size(130, 115)
+                Size = new Size(130, 90)
             };
 
             lightButton1 = new Button()
             {
-                Text = "Light ON/OFF",
+                Text = "Light",
                 Location = new Point(5, 15),
                 Size = new Size(90, 20),
-                FlatStyle = FlatStyle.Flat
             };
             lightButton1.Click += (s, e) =>
             {
                 cGL.light1On = !cGL.light1On;
                 cGL.light2On = cGL.light1On;
                 if (!cGL.light1On)
-                    cGL.pos[2] = -100.0f;
+                    cGL.pos[2] = -100.0f;//off
                 else
-                    cGL.pos[2] = 15.0f;
+                    cGL.pos[2] = 15.0f; //height
                 UpdateLightButton1();
                 cGL.Draw();
             };
 
-            Label lblLightPosX = new Label() { Text = "X:", Location = new Point(5, 52), Size = new Size(12, 12) };
+            Label lblLightPosX = new Label() { Text = "X:", Location = new Point(5, 40), Size = new Size(12, 12) };
             HScrollBar lightPosX = new HScrollBar()
             {
-                Location = new Point(20, 52),
+                Location = new Point(20, 40),
                 Size = new Size(70, 12),
-                Minimum = -28,
+                Minimum = -12,
                 Maximum = 150,
                 Value = 0,
                 SmallChange = 1,
                 LargeChange = 5
             };
-            Label lblLightPosXVal = new Label() { Text = "0.0", Location = new Point(95, 52), Size = new Size(35, 12) };
+            Label lblLightPosXVal = new Label() { Text = "0.0", Location = new Point(95, 40), Size = new Size(30, 12) };
 
-            Label lblLightPosY = new Label() { Text = "Y:", Location = new Point(5, 67), Size = new Size(12, 12) };
+            Label lblLightPosY = new Label() { Text = "Y:", Location = new Point(5, 55), Size = new Size(12, 12) };
             HScrollBar lightPosY = new HScrollBar()
             {
-                Location = new Point(20, 67),
+                Location = new Point(20, 55),
                 Size = new Size(70, 12),
                 Minimum = -28,
                 Maximum = 150,
@@ -116,23 +108,9 @@ namespace myOpenGL
                 SmallChange = 1,
                 LargeChange = 5
             };
-            Label lblLightPosYVal = new Label() { Text = "0.0", Location = new Point(95, 67), Size = new Size(35, 12) };
-
-            Label lblLightPosZ = new Label() { Text = "Z:", Location = new Point(5, 82), Size = new Size(12, 12) };
-            HScrollBar lightPosZ = new HScrollBar()
-            {
-                Location = new Point(20, 82),
-                Size = new Size(70, 12),
-                Minimum = -100,
-                Maximum = 150,
-                Value = 0,
-                SmallChange = 1,
-                LargeChange = 5
-            };
-            Label lblLightPosZVal = new Label() { Text = "60.0", Location = new Point(95, 82), Size = new Size(35, 12) };
+            Label lblLightPosYVal = new Label() { Text = "0.0", Location = new Point(95, 55), Size = new Size(30, 12) };
 
             float maxXY = 100.0f;
-            float minHeight = 20.0f;
 
             lightPosX.Scroll += (s, e) =>
             {
@@ -150,26 +128,17 @@ namespace myOpenGL
                 lblLightPosYVal.Text = value.ToString("F1");
             };
 
-            lightPosZ.Scroll += (s, e) =>
-            {
-                float value = lightPosZ.Value / 10.0f;
-                if (value < minHeight) value = minHeight;
-                cGL.pos[2] = value;
-                lblLightPosZVal.Text = value.ToString("F1");
-            };
-
             lightingBox.Controls.AddRange(new Control[] {
         lightButton1, lblLightPosX, lightPosX, lblLightPosXVal,
-        lblLightPosY, lightPosY, lblLightPosYVal,
-        lblLightPosZ, lightPosZ, lblLightPosZVal,
+        lblLightPosY, lightPosY, lblLightPosYVal
     });
 
-            // objects 
+            // objects
             GroupBox objectsBox = new GroupBox()
             {
                 Text = "Objects",
-                Location = new Point(5, 135),
-                Size = new Size(130, 115)  
+                Location = new Point(5, 110),
+                Size = new Size(130, 115)
             };
 
             ComboBox objSelect = new ComboBox()
@@ -181,11 +150,11 @@ namespace myOpenGL
             objSelect.Items.AddRange(new string[] { "Car 1", "Gate", "Traffic Light" });
             objSelect.SelectedIndex = 0;
 
-            Label lblScale = new Label() { Text = "Size", Location = new Point(5, 38), Size = new Size(25, 10) };
+            Label lblScale = new Label() { Text = "Size", Location = new Point(5, 38), Size = new Size(25, 12) };
             HScrollBar scaleBar = new HScrollBar()
             {
                 Location = new Point(30, 38),
-                Size = new Size(60, 10),
+                Size = new Size(60, 12),
                 Minimum = 50,
                 Maximum = 200,
                 Value = 100
@@ -194,51 +163,51 @@ namespace myOpenGL
             {
                 Text = "1.0",
                 Location = new Point(95, 38),
-                Size = new Size(30, 10)
+                Size = new Size(30, 12)
             };
 
-            Label lblRot = new Label() { Text = "Rotate", Location = new Point(5, 53), Size = new Size(40, 10) };
+            Label lblRot = new Label() { Text = "Rotate", Location = new Point(5, 53), Size = new Size(40, 12) };
             HScrollBar rotBar = new HScrollBar()
             {
                 Location = new Point(50, 53),
-                Size = new Size(70, 10),
+                Size = new Size(70, 12),
                 Minimum = 0,
                 Maximum = 360,
                 Value = 0
             };
 
-            Label lblPosX = new Label() { Text = "X:", Location = new Point(5, 68), Size = new Size(12, 10) };
+            Label lblPosX = new Label() { Text = "X:", Location = new Point(5, 68), Size = new Size(12, 12) };
             HScrollBar posBarX = new HScrollBar()
             {
                 Location = new Point(20, 68),
-                Size = new Size(60, 10),
+                Size = new Size(60, 12),
                 Minimum = -100,
                 Maximum = 100,
                 Value = 0
             };
-            Label lblPosXVal = new Label() { Text = "0.0", Location = new Point(85, 68), Size = new Size(30, 10) };
+            Label lblPosXVal = new Label() { Text = "0.0", Location = new Point(85, 68), Size = new Size(30, 12) };
 
-            Label lblPosY = new Label() { Text = "Y:", Location = new Point(5, 81), Size = new Size(12, 10) };
+            Label lblPosY = new Label() { Text = "Y:", Location = new Point(5, 83), Size = new Size(12, 12) };
             HScrollBar posBarY = new HScrollBar()
             {
-                Location = new Point(20, 81),
-                Size = new Size(60, 10),
+                Location = new Point(20, 83),
+                Size = new Size(60, 12),
                 Minimum = -100,
                 Maximum = 100,
                 Value = 0
             };
-            Label lblPosYVal = new Label() { Text = "0.0", Location = new Point(85, 81), Size = new Size(30, 10) };
+            Label lblPosYVal = new Label() { Text = "0.0", Location = new Point(85, 83), Size = new Size(30, 12) };
 
-            Label lblPosZ = new Label() { Text = "Z:", Location = new Point(5, 94), Size = new Size(12, 10) };
+            Label lblPosZ = new Label() { Text = "Z:", Location = new Point(5, 98), Size = new Size(12, 12) };
             HScrollBar posBarZ = new HScrollBar()
             {
-                Location = new Point(20, 94),
-                Size = new Size(60, 10),
+                Location = new Point(20, 98),
+                Size = new Size(60, 12),
                 Minimum = -100,
                 Maximum = 100,
                 Value = 0
             };
-            Label lblPosZVal = new Label() { Text = "0.0", Location = new Point(85, 94), Size = new Size(30, 10) };
+            Label lblPosZVal = new Label() { Text = "0.0", Location = new Point(85, 98), Size = new Size(30, 12) };
 
             scaleBar.Scroll += (s, e) =>
             {
@@ -253,59 +222,46 @@ namespace myOpenGL
                 float posX = posBarX.Value / 10.0f;
                 lblPosXVal.Text = posX.ToString("F1");
                 int index = objSelect.SelectedIndex;
-
                 if (index >= 0 && index < cGL.objectPositions.Length)
                 {
                     var pos = cGL.objectPositions[index];
                     pos.X = posX;
                     cGL.objectPositions[index] = pos;
                 }
-
                 cGL.Draw();
             };
-
 
             posBarY.Scroll += (s, e) =>
             {
                 float posY = posBarY.Value / 10.0f;
                 lblPosYVal.Text = posY.ToString("F1");
                 int index = objSelect.SelectedIndex;
-
                 if (index >= 0 && index < cGL.objectPositions.Length)
                 {
                     var pos = cGL.objectPositions[index];
                     pos.Y = posY;
                     cGL.objectPositions[index] = pos;
                 }
-
                 cGL.Draw();
             };
-
 
             posBarZ.Scroll += (s, e) =>
             {
                 float posZ = posBarZ.Value / 10.0f;
                 lblPosZVal.Text = posZ.ToString("F1");
                 int index = objSelect.SelectedIndex;
-
                 if (index >= 0 && index < cGL.objectPositions.Length)
                 {
                     var pos = cGL.objectPositions[index];
                     pos.Z = posZ;
                     cGL.objectPositions[index] = pos;
                 }
-
                 cGL.Draw();
             };
 
-
-
             objectsBox.Controls.AddRange(new Control[] {
-        objSelect,
-        lblScale, scaleBar, lblScaleVal,
-        lblRot, rotBar,
-        lblPosX, posBarX, lblPosXVal,
-        lblPosY, posBarY, lblPosYVal,
+        objSelect, lblScale, scaleBar, lblScaleVal, lblRot, rotBar,
+        lblPosX, posBarX, lblPosXVal, lblPosY, posBarY, lblPosYVal,
         lblPosZ, posBarZ, lblPosZVal
     });
 
@@ -313,7 +269,7 @@ namespace myOpenGL
             GroupBox texturesBox = new GroupBox()
             {
                 Text = "Textures",
-                Location = new Point(5, 255),  
+                Location = new Point(5, 230),
                 Size = new Size(130, 65)
             };
 
@@ -346,41 +302,67 @@ namespace myOpenGL
             GroupBox animationBox = new GroupBox()
             {
                 Text = "Animation",
-                Location = new Point(5, 325),  
-                Size = new Size(130, 85)
+                Location = new Point(5, 300),
+                Size = new Size(130, 90)
             };
 
-            Button car1Btn = new Button() { Text = "Start Car 1", Location = new Point(5, 15), Size = new Size(55, 18), FlatStyle = FlatStyle.Flat };
-            Button car2Btn = new Button() { Text = "Start Car 2", Location = new Point(65, 15), Size = new Size(55, 18), FlatStyle = FlatStyle.Flat };
-
+            Button car1Btn = new Button()
+            {
+                Text = "Start Car 1",
+                Location = new Point(5, 15),
+                Size = new Size(58, 25),
+            };
             car1Btn.Click += (s, e) => cGL.StartCar(0);
+
+            Button car2Btn = new Button()
+            {
+                Text = "Start Car 2",
+                Location = new Point(67, 15),
+                Size = new Size(58, 25),
+            };
             car2Btn.Click += (s, e) => cGL.StartCar(1);
 
-            Label lblSpeed = new Label() { Text = "Speed", Location = new Point(5, 38), Size = new Size(30, 10) };
+            Label lblSpeed = new Label()
+            {
+                Text = "Speed",
+                Location = new Point(5, 45),
+                Size = new Size(30, 15)
+            };
+
             HScrollBar speedBar = new HScrollBar()
             {
-                Location = new Point(40, 38),
-                Size = new Size(80, 10),
+                Location = new Point(40, 45),
+                Size = new Size(80, 15),
                 Minimum = 5,
                 Maximum = 50,
                 Value = 10
             };
             speedBar.Scroll += (s, e) => { cGL.carSpeed = speedBar.Value / 10.0f; };
 
-            Button gateBtn = new Button() { Text = "Gate Open/Close", Location = new Point(5, 53), Size = new Size(115, 18), FlatStyle = FlatStyle.Flat };
+            Button gateBtn = new Button()
+            {
+                Text = "Gate Open/Close",
+                Location = new Point(5, 65),
+                Size = new Size(115, 20),
+            };
             gateBtn.Click += (s, e) => cGL.ToggleGate();
 
             animationBox.Controls.AddRange(new Control[] { car1Btn, car2Btn, lblSpeed, speedBar, gateBtn });
 
-            // view box
+            // view control
             GroupBox viewBox = new GroupBox()
             {
                 Text = "View Control",
-                Location = new Point(5, 415),  
-                Size = new Size(130, 65)
+                Location = new Point(5, 395),
+                Size = new Size(130, 70)
             };
 
-            projectionBtn = new Button() { Text = "Perspective", Location = new Point(5, 15), Size = new Size(120, 18), FlatStyle = FlatStyle.Flat };
+            projectionBtn = new Button()
+            {
+                Text = "Perspective",
+                Location = new Point(5, 15),
+                Size = new Size(120, 25),
+            };
             projectionBtn.Click += (s, e) =>
             {
                 cGL.ToggleProjectionMode();
@@ -388,11 +370,11 @@ namespace myOpenGL
                 projectionBtn.BackColor = cGL.isOrthogonal ? Color.LightBlue : SystemColors.Control;
             };
 
-            Label lblZoom = new Label() { Text = "Zoom", Location = new Point(5, 38), Size = new Size(30, 10) };
+            Label lblZoom = new Label() { Text = "Zoom", Location = new Point(5, 45), Size = new Size(30, 15) };
             HScrollBar zoomBar = new HScrollBar()
             {
-                Location = new Point(40, 38),
-                Size = new Size(80, 10),
+                Location = new Point(40, 45),
+                Size = new Size(80, 15),
                 Minimum = 60,
                 Maximum = 250,
                 Value = 90
@@ -401,19 +383,25 @@ namespace myOpenGL
 
             viewBox.Controls.AddRange(new Control[] { projectionBtn, lblZoom, zoomBar });
 
-            // global
+            // global lights
             GroupBox globalLightBox = new GroupBox()
             {
                 Text = "Global Light",
-                Location = new Point(5, 485),  
-                Size = new Size(130, 65)
+                Location = new Point(5, 480),
+                Size = new Size(130, 85)
             };
 
-            Label lblAmbient = new Label() { Text = "Ambient", Location = new Point(5, 15), Size = new Size(40, 10) };
+            Label lblAmbient = new Label()
+            {
+                Text = "Ambient",
+                Location = new Point(5, 20),
+                Size = new Size(45, 15)
+            };
+
             HScrollBar ambientBar = new HScrollBar()
             {
-                Location = new Point(50, 15),
-                Size = new Size(70, 10),
+                Location = new Point(55, 20),
+                Size = new Size(65, 15),
                 Minimum = 0,
                 Maximum = 100,
                 Value = 20
@@ -422,22 +410,21 @@ namespace myOpenGL
             {
                 float intensity = ambientBar.Value / 100.0f;
                 cGL.SetGlobalAmbient(intensity);
-                cGL.Draw();
             };
 
             RadioButton radioSunOn = new RadioButton()
             {
-                Text = "Sun ON",
-                Location = new Point(5, 35),
-                Size = new Size(60, 15),
+                Text = "Off",
+                Location = new Point(5, 45),
+                Size = new Size(55, 18),
                 Checked = true
             };
 
             RadioButton radioSunOff = new RadioButton()
             {
-                Text = "Sun OFF",
-                Location = new Point(65, 35),
-                Size = new Size(60, 15)
+                Text = "On",
+                Location = new Point(65, 45),
+                Size = new Size(55, 18)
             };
 
             radioSunOn.CheckedChanged += (s, e) =>
@@ -460,13 +447,16 @@ namespace myOpenGL
                 }
             };
 
-            globalLightBox.Controls.AddRange(new Control[] { lblAmbient, ambientBar, radioSunOn, radioSunOff });
+            globalLightBox.Controls.AddRange(new Control[]
+            {
+    lblAmbient, ambientBar, radioSunOn, radioSunOff
+            });
 
-            // scene
+            // scene action
             GroupBox sceneBox = new GroupBox()
             {
                 Text = "Scene Actions",
-                Location = new Point(5, 555),  
+                Location = new Point(5, 575),
                 Size = new Size(130, 145)
             };
 
@@ -474,28 +464,32 @@ namespace myOpenGL
             {
                 Text = "Reset",
                 Location = new Point(5, 15),
-                Size = new Size(40, 20),
-                FlatStyle = FlatStyle.Flat
+                Size = new Size(50, 20),
             };
 
-            Label lblRotation = new Label() { Text = "Rotation", Location = new Point(5, 40), Size = new Size(50, 12), Font = new Font("Arial", 7, FontStyle.Bold) };
+            Label lblRotation = new Label()
+            {
+                Text = "Rotation",
+                Location = new Point(5, 40),
+                Size = new Size(50, 12),
+            };
 
             Label lblRotX = new Label() { Text = "X", Location = new Point(5, 55), Size = new Size(12, 15) };
             NumericUpDown rotXControl = new NumericUpDown()
             {
                 Location = new Point(18, 55),
-                Size = new Size(40, 15),
+                Size = new Size(35, 15),
                 Minimum = -180,
                 Maximum = 180,
                 Value = -15,
                 DecimalPlaces = 1
             };
 
-            Label lblRotY = new Label() { Text = "Y", Location = new Point(65, 55), Size = new Size(12, 15) };
+            Label lblRotY = new Label() { Text = "Y", Location = new Point(68, 55), Size = new Size(12, 15) };
             NumericUpDown rotYControl = new NumericUpDown()
             {
-                Location = new Point(78, 55),
-                Size = new Size(40, 15),
+                Location = new Point(81, 55),
+                Size = new Size(35, 15),
                 Minimum = -180,
                 Maximum = 180,
                 Value = 0,
@@ -506,20 +500,25 @@ namespace myOpenGL
             NumericUpDown rotZControl = new NumericUpDown()
             {
                 Location = new Point(18, 75),
-                Size = new Size(40, 15),
+                Size = new Size(35, 15),
                 Minimum = -180,
                 Maximum = 180,
                 Value = 10,
                 DecimalPlaces = 1
             };
 
-            Label lblTranslation = new Label() { Text = "Translation", Location = new Point(65, 40), Size = new Size(55, 12), Font = new Font("Arial", 7, FontStyle.Bold) };
+            Label lblTranslation = new Label()
+            {
+                Text = "Translation",
+                Location = new Point(68, 40),
+                Size = new Size(55, 12),
+            };
 
-            Label lblTransX = new Label() { Text = "X", Location = new Point(65, 75), Size = new Size(12, 15) };
+            Label lblTransX = new Label() { Text = "X", Location = new Point(68, 75), Size = new Size(12, 15) };
             NumericUpDown transXControl = new NumericUpDown()
             {
-                Location = new Point(78, 75),
-                Size = new Size(40, 15),
+                Location = new Point(81, 75),
+                Size = new Size(35, 15),
                 Minimum = -20,
                 Maximum = 20,
                 Value = 0,
@@ -531,7 +530,7 @@ namespace myOpenGL
             NumericUpDown transYControl = new NumericUpDown()
             {
                 Location = new Point(18, 95),
-                Size = new Size(40, 15),
+                Size = new Size(35, 15),
                 Minimum = -20,
                 Maximum = 20,
                 Value = 0,
@@ -539,11 +538,11 @@ namespace myOpenGL
                 Increment = 0.1m
             };
 
-            Label lblTransZ = new Label() { Text = "Z", Location = new Point(65, 95), Size = new Size(12, 15) };
+            Label lblTransZ = new Label() { Text = "Z", Location = new Point(68, 95), Size = new Size(12, 15) };
             NumericUpDown transZControl = new NumericUpDown()
             {
-                Location = new Point(78, 95),
-                Size = new Size(40, 15),
+                Location = new Point(81, 95),
+                Size = new Size(35, 15),
                 Minimum = 5,
                 Maximum = 25,
                 Value = 9,
@@ -560,36 +559,49 @@ namespace myOpenGL
             };
 
             rotXControl.ValueChanged += (s, e) => { cGL.xAngle = (float)rotXControl.Value; cGL.Draw(); };
+
             rotZControl.ValueChanged += (s, e) => { cGL.zAngle = (float)rotZControl.Value; cGL.Draw(); };
             transXControl.ValueChanged += (s, e) => { cGL.panX = (float)transXControl.Value; cGL.Draw(); };
             transYControl.ValueChanged += (s, e) => { cGL.panY = (float)transYControl.Value; cGL.Draw(); };
             transZControl.ValueChanged += (s, e) => { cGL.zoomDistance = (float)transZControl.Value; cGL.Draw(); };
 
             sceneBox.Controls.AddRange(new Control[] {
-        resetBtn, lblRotation, lblRotX, rotXControl, lblRotY, rotYControl, lblRotZ, rotZControl,
-        lblTranslation, lblTransX, transXControl, lblTransY, transYControl, lblTransZ, transZControl
-    });
+    resetBtn, lblRotation, lblRotX, rotXControl, lblRotY, rotYControl, lblRotZ, rotZControl,
+    lblTranslation, lblTransX, transXControl, lblTransY, transYControl, lblTransZ, transZControl
+});
 
-            //  file 
+            // file
             GroupBox fileBox = new GroupBox()
             {
                 Text = "File",
-                Location = new Point(5, 705), 
+                Location = new Point(5, 730),
                 Size = new Size(130, 45)
             };
 
-            Button saveBtn = new Button() { Text = "Save Scene", Location = new Point(5, 15), Size = new Size(55, 18), FlatStyle = FlatStyle.Flat };
-            Button loadBtn = new Button() { Text = "Load Scene", Location = new Point(65, 15), Size = new Size(55, 18), FlatStyle = FlatStyle.Flat };
+            Button saveBtn = new Button()
+            {
+                Text = "Save Scene",
+                Location = new Point(5, 15),
+                Size = new Size(58, 20),
+            };
+            Button loadBtn = new Button()
+            {
+                Text = "Load Scene",
+                Location = new Point(67, 15),
+                Size = new Size(58, 20),
+            };
 
             saveBtn.Click += (s, e) => SaveScene();
             loadBtn.Click += (s, e) => LoadScene();
 
             fileBox.Controls.AddRange(new Control[] { saveBtn, loadBtn });
 
+            
             mainControls.Controls.AddRange(new Control[] {
-        lightingBox, objectsBox, texturesBox, animationBox, viewBox, globalLightBox, sceneBox, fileBox
-    });
-        }       
+    lightingBox, objectsBox, texturesBox, animationBox,
+    viewBox, globalLightBox, sceneBox, fileBox
+});
+        }
         private void ApplyObjectScale(int objIndex, float scale)
         {
             switch (objIndex)
@@ -672,8 +684,8 @@ namespace myOpenGL
         }
         private void UpdateLightButton1()
         {
-            lightButton1.Text = cGL.light1On ? "Light ON" : "Light OFF";
-            lightButton1.BackColor = cGL.light1On ? Color.Yellow : Color.Gray;
+            lightButton1.Text = cGL.light1On ? "On" : "Off";
+          
         }
         private void panel1_Paint(object sender, PaintEventArgs e) => cGL.Draw();
         private void panel1_Resize(object sender, EventArgs e) => cGL.OnResize();
@@ -767,82 +779,5 @@ namespace myOpenGL
             e.Handled = true;
         }
     }
-    //private void hScrollBar11_Scroll(object sender, ScrollEventArgs e)
-    //{
-    //    HScrollBar hb = (HScrollBar)sender;
-    //    cGL.pos[0] = (hb.Value - 100) / 10.0f;
-    //    cGL.Draw();
-    //}
-
-    //private void hScrollBar12_Scroll(object sender, ScrollEventArgs e)
-    //{
-    //    HScrollBar hb = (HScrollBar)sender;
-    //    cGL.pos[1] = (hb.Value - 100) / 10.0f;
-    //    cGL.Draw();
-    //}
-
-    //private void hScrollBar13_Scroll(object sender, ScrollEventArgs e)
-    //{
-    //    HScrollBar hb = (HScrollBar)sender;
-    //    cGL.pos[2] = (hb.Value - 100) / 10.0f;
-    //    cGL.Draw();
-    //}
-    //private void UpdateSelectedLightIntensity()
-    //{
-    //    float intensity = lightIntensityBar.Value / 10.0f;
-    //    cGL.light1Intensity = intensity;
-    //    cGL.light2Intensity = intensity;
-    //    cGL.Draw();
-    //}
-
-    //private void UpdateSelectedLightRadius()
-    //{
-    //    float radius = lightRadiusBar.Value / 100.0f;
-    //    cGL.light1Radius = radius;
-    //    cGL.light2Radius = radius;
-    //    cGL.Draw();
-    //}
-    //private void ApplyObjectPosition(int objIndex, float x, float y)
-    //{
-    //    switch (objIndex)
-    //    {
-    //        case 0:
-    //        case 1: // רכבים
-    //            // כרגע לא משפיע על רכבים
-    //            break;
-    //        case 2: // שער
-    //            cGL.gateOffsetX = x;
-    //            cGL.gateOffsetY = y;
-    //            break;
-    //    }
-    //    cGL.Draw();
-    //}
-
-    //private void ApplyObjectReset(int objIndex)
-    //{
-    //    switch (objIndex)
-    //    {
-    //        case 0:
-    //        case 1: // רכבים
-    //            if (objIndex < 2)
-    //            {
-    //                cGL.InitializeCarRoutes();
-    //            }
-    //            break;
-    //        case 2: // שער
-    //            cGL.gateScale = 1.0f;
-    //            cGL.gateRotation = 0.0f;
-    //            cGL.gateOffsetX = cGL.gateOffsetY = 0.0f;
-    //            break;
-    //        case 3: // רמזור
-    //            cGL.trafficLightScale = 1.0f;
-    //            cGL.trafficLightRotation = 0.0f;
-    //            break;
-    //        case 4: // עמוד תאורה
-    //            cGL.streetLampScale = 1.0f;
-    //            cGL.streetLampRotation = 0.0f;
-    //            break;
-    //    }
-    //    cGL.Draw();
-    //}
+    
 }

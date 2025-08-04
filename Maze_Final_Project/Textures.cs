@@ -10,8 +10,8 @@ namespace OpenGL
     {
         public void LoadParkingTextures()
         {
-            GenerateTextures();      
-            LoadSkyboxTextures();   
+            GenerateTextures();
+            LoadSkyboxTextures();
         }
         void LoadSkyboxTextures()
         {
@@ -57,14 +57,14 @@ namespace OpenGL
             GL.glEnable(GL.GL_TEXTURE_2D);
             GL.glDepthMask((byte)GL.GL_FALSE);
 
-            GL.glRotatef(textureRotation * 0.03f, 0, 0, 1); 
+            GL.glRotatef(textureRotation * 0.03f, 0, 0, 1);
 
             GL.glColor3f(1.0f, 1.0f, 1.0f);
 
             float half = size / 2f;
 
-            float t0 = 0.0f;  
-            float t1 = 1.0f;  
+            float t0 = 0.0f;
+            float t1 = 1.0f;
 
             // bottom
             GL.glBindTexture(GL.GL_TEXTURE_2D, SkyboxTextures[0]);
@@ -125,8 +125,8 @@ namespace OpenGL
         }
         protected void UpdateSkyboxAnimation()
         {
-            
-            textureRotation += 0.3f; 
+
+            textureRotation += 0.3f;
         }
         void GenerateTextures()
         {
@@ -190,31 +190,32 @@ namespace OpenGL
         private Dictionary<string, MaterialProperties> materials = new Dictionary<string, MaterialProperties>()
         {
             ["gold"] = new MaterialProperties(
-          new float[] { 0.24725f, 0.2245f, 0.0645f, 1.0f },
-          new float[] { 0.34615f, 0.3143f, 0.0903f, 1.0f },
-          new float[] { 0.797357f, 0.723991f, 0.208006f, 1.0f },
-          83.2f
+          new float[] { 1, 1, 0, 1.0f },
+          new float[] { 1f, 1f, 1f, 1.0f },
+          new float[] { 1f, 1f, 1f, 1.0f },
+          100.0f
       ),
 
             ["emerald"] = new MaterialProperties(
-          new float[] { 0.0215f, 0.1745f, 0.0215f, 0.55f },
-          new float[] { 0.07568f, 0.61424f, 0.07568f, 0.55f },
-          new float[] { 0.633f, 0.727811f, 0.633f, 0.55f },
-          76.8f
+          new float[] { 0f, 1f, 0f, 1f },
+          new float[] { 1f, 1f, 1f, 1f },
+          new float[] { 1f, 1f, 1f, 1f },
+          100.0f
       ),
 
             ["chrome"] = new MaterialProperties(
-          new float[] { 0.25f, 0.25f, 0.25f, 1.0f },
-          new float[] { 0.4f, 0.4f, 0.4f, 1.0f },
-          new float[] { 0.774597f, 0.774597f, 0.774597f, 1.0f },
-          76.8f
+          new float[] { 0f, 0.75f, 1f, 1.0f },
+          new float[] { 1f, 1f, 1, 1.0f },
+          new float[] { 1f, 1f, 1f, 1.0f },
+          100.0f
       ),
             ["white"] = new MaterialProperties(
         new float[] { 0.2f, 0.2f, 0.2f, 1.0f },
         new float[] { 1.0f, 1.0f, 1.0f, 1.0f },
         new float[] { 0.3f, 0.3f, 0.3f, 1.0f },
-        16.0f
-    )
+        100.0f
+
+    ),
         };
         private void SetMaterial(MaterialProperties material)
         {

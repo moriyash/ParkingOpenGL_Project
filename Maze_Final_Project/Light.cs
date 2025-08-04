@@ -26,7 +26,7 @@ namespace OpenGL
             GL.glLightfv(GL.GL_LIGHT0, GL.GL_DIFFUSE, bright);
             GL.glLightfv(GL.GL_LIGHT0, GL.GL_SPECULAR, bright);
             GL.glLightfv(GL.GL_LIGHT0, GL.GL_AMBIENT, dim);
-
+            //look dark when the light is moving
             GL.glLightf(GL.GL_LIGHT0, GL.GL_CONSTANT_ATTENUATION, 0.1f);
             GL.glLightf(GL.GL_LIGHT0, GL.GL_LINEAR_ATTENUATION, 0.05f);
 
@@ -118,6 +118,8 @@ namespace OpenGL
             autoTrafficLight = true;
             trafficLightTimer = 0.0f;
         }
+
+
         public void SetSunAngle(float angleX, float angleY)
         {
             sunAngleX = angleX;
@@ -168,7 +170,7 @@ namespace OpenGL
         sunColor[1] * sunIntensity,
         sunColor[2] * sunIntensity,
         1.0f
-    };
+    }; //power
 
             float[] sunAmbient = {
         sunColor[0] * 0.3f,
